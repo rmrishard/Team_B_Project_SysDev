@@ -1,0 +1,11 @@
+/* style.css - Custom styles */
+
+/* Lebanese flag red */
+.lebanese-red {
+    color: #D62D20;
+    font-weight: 700;
+}
+
+body {
+    background-color: #f8f9fa;
+}
