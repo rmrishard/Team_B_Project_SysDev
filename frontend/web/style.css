@@ -9,3 +9,9 @@
 body {
     background-color: #f8f9fa;
 }
+
+.nav-link:hover {
+    color: #007A3D !important; /* Cedar tree green */
+    font-weight: bold;
+}
+
