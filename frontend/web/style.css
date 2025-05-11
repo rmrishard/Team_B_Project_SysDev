@@ -11,7 +11,7 @@ body {
 }
 
 .nav-link:hover {
-    color: #007A3D !important; /* Cedar tree green */
+    
     font-weight: bold;
 }
 
