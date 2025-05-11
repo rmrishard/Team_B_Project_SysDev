@@ -14,5 +14,25 @@ body {
     
     font-weight: bold;
 }
+/* Sticky footer */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1; /* Pushes the footer to the bottom */
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
 
 
