@@ -10,10 +10,18 @@ body {
     background-color: #f8f9fa;
 }
 
-.nav-link:hover {
-    
-    font-weight: bold;
+/* Navbar link styles */
+.nav-link {
+    font-weight: 500; /* Default weight to prevent shifting */
+    transition: color 0.3s ease-in-out; /* Smooth color transition */
 }
+
+.nav-link:hover {
+    font-weight: 700; /* Bold without affecting layout */
+    color: #fff; /* Ensuring smooth transition */
+}
+
+
 /* Sticky footer */
 html, body {
     height: 100%;
@@ -34,5 +42,6 @@ footer {
     bottom: 0;
     width: 100%;
 }
+
 
 
