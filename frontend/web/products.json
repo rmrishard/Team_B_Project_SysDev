@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Lebanese Olive Oil",
+      "description": "Premium extra virgin olive oil from Bekaa Valley",
+      "price": 24.99,
+      "image": "products/olive-oil.jpeg",
+      "origin": "Lebanon"
+    },
+    {
+      "id": 2,
+      "name": "Za'atar Spice Mix",
+      "description": "Authentic blend of thyme, sumac, and sesame seeds",
+      "price": 9.99,
+      "image": "products/zaatar.jpeg",
+      "origin": "Lebanon"
+    },
+    {
+      "id": 3,
+      "name": "Arabic Coffee Set",
+      "description": "Traditional brass coffee pot with cups",
+      "price": 49.99,
+      "image": "products/coffee-set.jpeg",
+      "origin": "Lebanon"
+    }
+  ]
+}
