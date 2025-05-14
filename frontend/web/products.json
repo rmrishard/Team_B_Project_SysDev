@@ -2,27 +2,31 @@
   "products": [
     {
       "id": 1,
-      "name": "Lebanese Olive Oil",
-      "description": "Premium extra virgin olive oil from Bekaa Valley",
-      "price": 24.99,
-      "image": "products/olive-oil.jpeg",
-      "origin": "Lebanon"
+      "name": "El-Koura Extra Virgin Olive Oil",
+      "description": "Premium cold-pressed olive oil with no cholesterol. Naturally extracted using traditional methods. Product of Safer region.",
+      "price": 34.99,
+      "image": "products/olive-oil.jpg",
+      "origin": "Lebanon",
+      "details": {
+        "volume": "3 Liters (101 FL. OZ)",
+        "type": "Cold Pressed",
+        "certification": "100% Pure Virgin Oil",
+        "arabic_text": "الكورة البكر الممتاز"
+      }
     },
     {
       "id": 2,
-      "name": "Za'atar Spice Mix",
-      "description": "Authentic blend of thyme, sumac, and sesame seeds",
-      "price": 9.99,
-      "image": "products/zaatar.jpeg",
-      "origin": "Lebanon"
-    },
-    {
-      "id": 3,
-      "name": "Arabic Coffee Set",
-      "description": "Traditional brass coffee pot with cups",
-      "price": 49.99,
-      "image": "products/coffee-set.jpeg",
-      "origin": "Lebanon"
+      "name": "Celon Horse Head Starch Tea",
+      "description": "Traditional Lebanese starch-based tea blend with distinctive horse head branding. Authentic regional recipe.",
+      "price": 14.99,
+      "image": "products/Tea.jpeg",
+      "origin": "Lebanon",
+      "details": {
+        "weight": "400g",
+        "type": "Herbal Tea Blend",
+        "characteristic": "Traditional Preparation",
+        "arabic_text": "شاي سيلاني رأس الحصان"
+      }
     }
   ]
 }
