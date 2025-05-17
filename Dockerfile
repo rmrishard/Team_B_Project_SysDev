@@ -4,5 +4,5 @@ WORKDIR /code
 COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 RUN pip install starlette==0.46.2 --upgrade
-COPY ./backend /code/app
-CMD ["fastapi", "run", "app/main.py", "--port", "5000"]
+# COPY ./backend /code/app
+CMD ["fastapi", "run", "app/main.py", "--port", "5000", "--reload"]

@@ -43,6 +43,8 @@ services:
     build: .
     stop_signal: SIGINT
     restart: unless-stopped
+    volumes:
+      - ./backend:/code/app
     ports:
       - "8000:5000"
     depends_on:
