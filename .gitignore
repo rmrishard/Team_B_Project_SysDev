@@ -1,4 +1,4 @@
 /database/*
 /secrets/pg_pw.txt
 /.idea/
-/backend/__*
+/backend/**/__pycache__
