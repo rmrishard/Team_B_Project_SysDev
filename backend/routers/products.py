@@ -1,4 +1,6 @@
 from fastapi import APIRouter, HTTPException
+from typing import TypedDict
+from pydantic import BaseModel, ConfigDict
 
 #Example modified from FastAPI example for APIRouter
 
@@ -8,9 +10,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-from pydantic import BaseModel, ConfigDict
-
-class ProductDetail(BaseModel):
+class ProductDetail(TypedDict, total=False):
     model_config = ConfigDict(extra='ignore')  
     volume: str | None = None
     type: str | None = None
@@ -70,7 +70,7 @@ async def read_item(item_id: int):
     #Do search within logic, move to query for DB server to do later
     matches = list(filter( lambda item: item["id"]==item_id ,fake_items_db["products"]))
     product = None
-    
+
     if len(matches) == 0:
         raise HTTPException(status_code=404, detail="Item not found")
     else:
