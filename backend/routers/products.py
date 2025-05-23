@@ -1,33 +1,15 @@
 from fastapi import APIRouter, HTTPException
-from typing import TypedDict
-from pydantic import BaseModel, ConfigDict
+from sqlmodel import Field, Session, SQLModel, create_engine, select
 
 from .mocking.products import fake_products as mock_products
+from ..models.products import *
 
 #Example modified from FastAPI example for APIRouter
-
 router = APIRouter(
     prefix="/products",
     tags=["products"],
     responses={404: {"description": "Not found"}},
 )
-
-class ProductDetail(TypedDict, total=False):
-    model_config = ConfigDict(extra='ignore')  
-    volume: str | None = None
-    type: str | None = None
-    certification: str | None = None
-    arabic_text: str | None = None
-
-class Product(BaseModel):
-    model_config = ConfigDict(extra='ignore')  
-    id: int
-    name: str
-    description: str
-    price: float
-    image: str
-    origin: str
-    details: ProductDetail
 
 @router.get("/")
 async def read_items():
