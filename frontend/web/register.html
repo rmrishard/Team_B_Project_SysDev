@@ -124,24 +124,85 @@
                                     <input type="text" class="form-control" required>
                                     <div class="invalid-feedback">Please enter your city</div>
                                 </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Province <span class="text-danger">*</span></label>
+                                    <select class="form-select" required>
+                                        <option value="">Select...</option>
+                                        <option value="AB">Alberta</option>
+                                        <option value="BC">British Columbia</option>
+                                        <option value="MB">Manitoba</option>
+                                        <option value="NB">New Brunswick</option>
+                                        <option value="NL">Newfoundland and Labrador</option>
+                                        <option value="NS">Nova Scotia</option>
+                                        <option value="ON">Ontario</option>
+                                        <option value="PE">Prince Edward Island</option>
+                                        <option value="QC">Quebec</option>
+                                        <option value="SK">Saskatchewan</option>
+                                        <option value="NT">Northwest Territories</option>
+                                        <option value="NU">Nunavut</option>
+                                        <option value="YT">Yukon</option>
+                                    </select>
+                                    <div class="invalid-feedback">Please select your province</div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Postal Code <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control"
+                                        pattern="[A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]" required>
+                                    <div class="invalid-feedback">Please enter a valid postal code</div>
+                                </div>
                             </div>
+                            <!-- Terms and Newsletter -->
+                            <div class="mt-4">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="checkbox" required>
+                                    <label class="form-check-label">
+                                        I agree to the <a href="#" class="text-danger">Terms of Service</a> and <a
+                                            href="#" class="text-danger">Privacy Policy</a>
+                                    </label>
+                                    <div class="invalid-feedback">You must agree to the terms and conditions</div>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="newsletter">
+                                    <label class="form-check-label" for="newsletter">
+                                        Subscribe to our newsletter for exclusive offers and updates
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-danger w-100 py-2">
+                                    Create Account
+                                </button>
+                            </div>
+
+                            <!-- Login Link -->
+                            <div class="text-center mt-4">
+                                <p class="mb-0">Already have an account? <a href="user.html" class="text-danger">Sign
+                                        In</a></p>
+                            </div>
+                            </form>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                        <!-- Footer -->
-                        <footer class="text-white text-center py-3 mt-5" style="background-color: #D62D20;">
-                            <div class="container">
-                                <p class="mb-0">&copy; <span id="year"></span> Yalla Habibi Imports. All rights reserved
-                                </p>
+        <!-- Footer -->
+        <footer class="text-white text-center py-3 mt-5" style="background-color: #D62D20;">
+            <div class="container">
+                <p class="mb-0">&copy; <span id="year"></span> Yalla Habibi Imports. All rights
+                    reserved
+                </p>
 
-                            </div>
-                        </footer>
+            </div>
+        </footer>
 
-                        <!-- Bootstrap JS Bundle with Popper -->
-                        <script
-                            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-                        <!-- Custom JS -->
-                        <script src="script.js"></script>
+        <!-- Custom JS -->
+        <script src="script.js"></script>
 </body>
 
 </html>
