@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg" style="background-color: #D62D20;">
@@ -29,7 +31,8 @@
                     <li class="nav-item">
                         <a class="nav-link text-white position-relative" href="cart.html">
                             <i class="fas fa-shopping-cart"></i>
-                            <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-danger">
+                            <span id="cartCount"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-danger">
                                 0
                             </span>
                         </a>
@@ -55,45 +58,90 @@
                         </div>
                         <form id="registrationForm" class="needs-validation" novalidate></form>
                         <!-- Personal Information -->
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">First Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" required>
-                                    <div class="invalid-feedback">Please enter your first name</div>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" required>
-                                    <div class="invalid-feedback">Please enter your last name</div>
-                                </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" required>
+                                <div class="invalid-feedback">Please enter your first name</div>
                             </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" required>
+                                <div class="invalid-feedback">Please enter your last name</div>
+                            </div>
+                        </div>
                         <!-- Contact Information -->
-                            <div class="row g-3 mt-2">
-                                <div class="col-md-6">
-                                    <label class="form-label">Email <span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" required>
-                                    <div class="invalid-feedback">Please enter a valid email</div>
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" class="form-control" required>
+                                <div class="invalid-feedback">Please enter a valid email</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" required>
+                                <div class="invalid-feedback">Please enter your phone number</div>
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label class="form-label">Password <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="password" required>
+                                    <button class="btn btn-outline-secondary" type="button"
+                                        onclick="togglePassword('password')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback">Please enter a password</div>
+                                <div class="form-text">Password must be at least 8 characters long</div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Confirm Password <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="password" class="form-control" id="confirmPassword" required>
+                                    <button class="btn btn-outline-secondary" type="button"
+                                        onclick="togglePassword('confirmPassword')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                </div>
+                                <div class="invalid-feedback">Passwords do not match</div>
+                            </div>
+                        </div>
+                        <!-- Address Information -->
+                        <div class="mt-4">
+                            <h5 class="mb-3">Shipping Address</h5>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label">Street Address <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" required>
+                                    <div class="invalid-feedback">Please enter your street address</div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Phone Number <span class="text-danger">*</span></label>
-                                    <input type="tel" class="form-control" required>
-                                    <div class="invalid-feedback">Please enter your phone number</div>
+                                    <label class="form-label">City <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" required>
+                                    <div class="invalid-feedback">Please enter your city</div>
                                 </div>
                             </div>
-                    </div></div>
+                        </div>
 
-    <!-- Footer -->
-<footer class="text-white text-center py-3 mt-5" style="background-color: #D62D20;">
-  <div class="container">
-    <p class="mb-0">&copy; <span id="year"></span> Yalla Habibi Imports. All rights reserved</p>
-    
-  </div>
-</footer>
+                        <!-- Footer -->
+                        <footer class="text-white text-center py-3 mt-5" style="background-color: #D62D20;">
+                            <div class="container">
+                                <p class="mb-0">&copy; <span id="year"></span> Yalla Habibi Imports. All rights reserved
+                                </p>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                            </div>
+                        </footer>
 
-    <!-- Custom JS -->
-    <script src="script.js"></script>
+                        <!-- Bootstrap JS Bundle with Popper -->
+                        <script
+                            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+                        <!-- Custom JS -->
+                        <script src="script.js"></script>
 </body>
+
 </html>
