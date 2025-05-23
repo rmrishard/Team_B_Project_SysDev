@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +13,9 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-        <!-- Navigation Bar -->
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg" style="background-color: #D62D20;">
         <div class="container-fluid">
             <a class="navbar-brand text-white fw-bold" href="index.html">Yalla Habibi</a>
@@ -29,7 +31,8 @@
                     <li class="nav-item">
                         <a class="nav-link text-white position-relative" href="cart.html">
                             <i class="fas fa-shopping-cart"></i>
-                            <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-danger">
+                            <span id="cartCount"
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-danger">
                                 0
                             </span>
                         </a>
@@ -53,42 +56,76 @@
                             <p class="text-muted small">Member since </p>
                             <a href="register.html" class="btn btn-outline-danger btn-sm">Create New Account</a>
                         </div>
-                        <div class="list-group list-group-flush " >
-                            <a href="#dashboard" class="list-group-item list-group-item-action active list-group-item-danger"data-bs-toggle="list">
+                        <div class="list-group list-group-flush ">
+                            <a href="#dashboard"
+                                class="list-group-item list-group-item-action active list-group-item-danger"
+                                data-bs-toggle="list">
                                 <i class="fas fa-home me-2"></i> Dashboard
                             </a>
-                            <a href="#orders" class="list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="list">
+                            <a href="#orders" class="list-group-item list-group-item-action list-group-item-danger"
+                                data-bs-toggle="list">
                                 <i class="fas fa-shopping-bag me-2"></i> My Orders
                             </a>
-                            <a href="#wishlist" class="list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="list">
+                            <a href="#wishlist" class="list-group-item list-group-item-action list-group-item-danger"
+                                data-bs-toggle="list">
                                 <i class="fas fa-heart me-2"></i> Wishlist
                             </a>
-                            <a href="#addresses" class="list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="list">
+                            <a href="#addresses" class="list-group-item list-group-item-action list-group-item-danger"
+                                data-bs-toggle="list">
                                 <i class="fas fa-map-marker-alt me-2"></i> Addresses
                             </a>
-                            <a href="#payment" class="list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="list">
+                            <a href="#payment" class="list-group-item list-group-item-action list-group-item-danger"
+                                data-bs-toggle="list">
                                 <i class="fas fa-credit-card me-2"></i> Payment Methods
                             </a>
-                            <a href="#settings" class="list-group-item list-group-item-action list-group-item-danger" data-bs-toggle="list">
+                            <a href="#settings" class="list-group-item list-group-item-action list-group-item-danger"
+                                data-bs-toggle="list">
                                 <i class="fas fa-cog me-2"></i> Account Settings
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="tab-content">
+                    <!-- Dashboard Tab -->
+                    <div class="tab-pane fade show active" id="dashboard">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <h4 class="card-title mb-4">Dashboard Overview</h4>
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <div class="card bg-light border-0">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-shopping-bag fa-2x text-danger mb-3"></i>
+                                                <h5>Total Orders</h5>
+                                                <h3 class="mb-0">0</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Footer -->
-<footer class="text-white text-center py-3 mt-5" style="background-color: #D62D20;">
-  <div class="container">
-    <p class="mb-0">&copy; <span id="year"></span> Yalla Habibi Imports. All rights reserved</p>
-    
-  </div>
-</footer>
+                        <!-- Footer -->
+                        <footer class="text-white text-center py-3 mt-5" style="background-color: #D62D20;">
+                            <div class="container">
+                                <p class="mb-0">&copy; <span id="year"></span> Yalla Habibi Imports. All rights reserved
+                                </p>
 
-    <!-- Bootstrap JS Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+                            </div>
+                        </footer>
 
-    <!-- Custom JS -->
-    <script src="script.js"></script>
+                        <!-- Bootstrap JS Bundle with Popper -->
+                        <script
+                            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+                        <!-- Custom JS -->
+                        <script src="script.js"></script>
 </body>
+
 </html>
