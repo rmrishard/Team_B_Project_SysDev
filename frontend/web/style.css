@@ -12,18 +12,23 @@ body {
 
 /* Navbar link styles */
 .nav-link {
-    font-weight: 500; /* Default weight to prevent shifting */
-    transition: color 0.3s ease-in-out; /* Smooth color transition */
+    font-weight: 500;
+    /* Default weight to prevent shifting */
+    transition: color 0.3s ease-in-out;
+    /* Smooth color transition */
 }
 
 .nav-link:hover {
-    font-weight: 700; /* Bold without affecting layout */
-    color: #fff; /* Ensuring smooth transition */
+    font-weight: 700;
+    /* Bold without affecting layout */
+    color: #fff;
+    /* Ensuring smooth transition */
 }
 
 
 /* Sticky footer */
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
 }
@@ -34,7 +39,8 @@ body {
 }
 
 .container {
-    flex: 1; /* Pushes the footer to the bottom */
+    flex: 1;
+    /* Pushes the footer to the bottom */
 }
 
 footer {
@@ -43,5 +49,10 @@ footer {
     width: 100%;
 }
 
-
-
+.list-group-item-action:hover,
+.list-group-item-action:focus,
+.list-group-item-action.active {
+    background-color: #D62D20 !important;
+    border-color: #D62D20 !important;
+    color: white !important;
+}
