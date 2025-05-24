@@ -27,6 +27,35 @@
         "characteristic": "Traditional Preparation",
         "arabic_text": "شاي سيلاني رأس الحصان"
       }
+    },
+        {
+      "id": 3,
+      "name": "Al Rifai Mixes of the House",
+      "description": "The House Mix Bundle brings together the best of our signature nut and kernel selections in one satisfying package.",
+      "price": 319.99,
+      "image": "products/nuts.jpg",
+      "origin": "Lebanon",
+      "details": {
+        "weight": "5 kg",
+        "type": "Premium ",
+        "characteristic": "House MIx Bundle",
+        "arabic_text": "مكسرات الرفاعي"
+      }
+    },
+            {
+      "id": 4,
+      "name": "Al Rifai Fruits and Nut Mix",
+      "description": "Enjoy the natural blend of fruity sweetness and crunchy goodness in our Premium Fruits And Nut Mix.",
+      "price": 715.99,
+      "image": "products/nuts1.jpg",
+      "origin": "Lebanon",
+      "details": {
+        "weight": "5 kg",
+        "type": "Premium ",
+        "characteristic": "Balanced mix of sweet fruits and crunchy nuts",
+        "arabic_text": "مكسرات الرفاعي"
+      }
     }
+    
   ]
 }
