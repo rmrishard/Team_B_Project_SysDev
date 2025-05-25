@@ -42,7 +42,6 @@ services:
   backend:
     build: .
     stop_signal: SIGINT
-    restart: unless-stopped
     volumes:
       - ./backend:/code/app
     ports:
@@ -50,6 +49,10 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    entrypoint: ["/bin/ash","-c"]
+    command:
+      - |
+        fastapi run app/main.py --port 5000 --reload
 
   #Web/proxy server
   web:
