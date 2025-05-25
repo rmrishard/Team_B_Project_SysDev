@@ -17,6 +17,7 @@ jobs:
         key: ${{ secrets.VPS_KEY }}
         script: |
           cd Team_B_Project_SysDev
+          git reset --hard HEAD
           git pull origin main
           docker compose down
           docker compose up --build -d
