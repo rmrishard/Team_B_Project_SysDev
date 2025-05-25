@@ -69,6 +69,20 @@
         "characteristic": "Perfect with tea or coffee",
         "arabic_text": "بسكويت لبناني تقليدي"
       }
+    },
+        {
+      "id": 6,
+      "name": "Traditional Lebanese Biscuits",
+      "description": "Authentic Lebanese biscuits made with premium ingredients, perfect for tea time or as a sweet treat.",
+      "price": 12.99,
+      "image": "products/biscuit.webp",
+      "origin": "Lebanon",
+      "details": {
+        "weight": "250g",
+        "type": "Traditional",
+        "characteristic": "Perfect with tea or coffee",
+        "arabic_text": "بسكويت لبناني تقليدي"
+      }
     }
   ]
 }
