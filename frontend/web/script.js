@@ -318,7 +318,12 @@ async function getProductById(productId) {
 async function loadProducts() {
     try {
         console.log('Attempting to fetch products...');
-        const response = await fetch('products.json');
+        const response = await fetch('products.json?' + new Date().getTime(), {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        });
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

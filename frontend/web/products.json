@@ -28,7 +28,7 @@
         "arabic_text": "شاي سيلاني رأس الحصان"
       }
     },
-        {
+    {
       "id": 3,
       "name": "Al Rifai Mixes of the House",
       "description": "The House Mix Bundle brings together the best of our signature nut and kernel selections in one satisfying package.",
@@ -42,7 +42,7 @@
         "arabic_text": "مكسرات الرفاعي"
       }
     },
-            {
+    {
       "id": 4,
       "name": "Al Rifai Fruits and Nut Mix",
       "description": "Enjoy the natural blend of fruity sweetness and crunchy goodness in our Premium Fruits And Nut Mix.",
@@ -55,7 +55,20 @@
         "characteristic": "Balanced mix of sweet fruits and crunchy nuts",
         "arabic_text": "مكسرات الرفاعي"
       }
+    },
+    {
+      "id": 5,
+      "name": "Traditional Lebanese Biscuits",
+      "description": "Authentic Lebanese biscuits made with premium ingredients, perfect for tea time or as a sweet treat.",
+      "price": 12.99,
+      "image": "products/biscuit.webp",
+      "origin": "Lebanon",
+      "details": {
+        "weight": "250g",
+        "type": "Traditional",
+        "characteristic": "Perfect with tea or coffee",
+        "arabic_text": "بسكويت لبناني تقليدي"
+      }
     }
-    
   ]
 }
