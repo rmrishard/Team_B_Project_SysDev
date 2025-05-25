@@ -28,6 +28,10 @@ function initializeApp() {
     if (window.location.pathname.endsWith('cart.html')) {
         loadCartItems();
     }
+       // Load order summary if on the checkout page
+    if (window.location.pathname.endsWith('checkout.html')) {
+        loadOrderSummary();
+    }
 }
 
 // =========================
@@ -157,93 +161,7 @@ function checkout() {
         showError('Your cart is empty');
         return;
     }
-
-    // Create checkout form modal
-    const modal = document.createElement('div');
-    modal.className = 'modal fade';
-    modal.id = 'checkoutModal';
-    modal.innerHTML = `
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Checkout</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="checkoutForm">
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label">First Name</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Last Name</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Phone</label>
-                            <input type="tel" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Address</label>
-                            <input type="text" class="form-control" required>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label">City</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Province</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Postal Code</label>
-                                <input type="text" class="form-control" required>
-                            </div>
-                        </div>
-                        <hr>
-                        <h5 class="mb-3">Payment Information</h5>
-                        <div class="mb-3">
-                            <label class="form-label">Card Number</label>
-                            <input type="text" class="form-control" placeholder="1234 5678 9012 3456" required>
-                        </div>
-                        <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label class="form-label">Expiry Date</label>
-                                <input type="text" class="form-control" placeholder="MM/YY" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">CVV</label>
-                                <input type="text" class="form-control" placeholder="123" required>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-danger" onclick="processOrder()">Place Order</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    // Add modal to document
-    document.body.appendChild(modal);
-
-    // Show modal
-    const checkoutModal = new bootstrap.Modal(modal);
-    checkoutModal.show();
-
-    // Clean up modal when hidden
-    modal.addEventListener('hidden.bs.modal', () => {
-        modal.remove();
-    });
+        window.location.href = 'checkout.html';
 }
 
 function processOrder() {
@@ -469,4 +387,54 @@ function showSuccessToast(message) {
     setTimeout(() => {
         toast.remove();
     }, 3000);
+}
+function loadOrderSummary() {
+    const orderSummaryContainer = document.getElementById('orderSummary');
+    if (!orderSummaryContainer) return;
+
+    if (cart.length === 0) {
+        orderSummaryContainer.innerHTML = `
+            <div class="alert alert-warning">
+                Your cart is empty. <a href="products.html">Continue shopping</a>
+            </div>
+        `;
+        return;
+    }
+
+    const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    const shipping = subtotal > 0 ? 10 : 0;
+    const tax = subtotal * 0.13;
+    const total = subtotal + shipping + tax;
+
+    orderSummaryContainer.innerHTML = `
+        <div class="mb-3">
+            ${cart.map(item => `
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <div>
+                        <h6 class="mb-0">${item.name}</h6>
+                        <small class="text-muted">Qty: ${item.quantity}</small>
+                    </div>
+                    <span>$${(item.price * item.quantity).toFixed(2)}</span>
+                </div>
+            `).join('')}
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between mb-2">
+            <span>Subtotal</span>
+            <span>$${subtotal.toFixed(2)}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+            <span>Shipping</span>
+            <span>$${shipping.toFixed(2)}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+            <span>Tax (13%)</span>
+            <span>$${tax.toFixed(2)}</span>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between mb-2">
+            <strong>Total</strong>
+            <strong>$${total.toFixed(2)}</strong>
+        </div>
+    `;
 }
