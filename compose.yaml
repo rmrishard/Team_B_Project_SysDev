@@ -41,6 +41,11 @@ services:
   #FASTAPI server
   backend:
     build: .
+    environment:
+      POSTGRES_USER_FILE: /run/secrets/pg_user
+      POSTGRES_PASSWORD_FILE: /run/secrets/pg_pw
+      DB_NAME: postgres
+      DB_DRIVER: postgresql
     stop_signal: SIGINT
     volumes:
       - ./backend:/code/app
@@ -53,6 +58,9 @@ services:
     command:
       - |
         fastapi run app/main.py --port 5000 --reload
+    secrets:
+      - pg_user
+      - pg_pw
 
   #Web/proxy server
   web:
