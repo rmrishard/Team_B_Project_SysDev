@@ -305,7 +305,12 @@ function processOrder() {
 // Fetch a single product by its ID
 async function getProductById(productId) {
     try {
-        const response = await fetch('products.json');
+        const response = await fetch('products.json?' + new Date().getTime(), {
+            cache: 'no-store',
+            headers: {
+                'Cache-Control': 'no-cache'
+            }
+        });
         const data = await response.json();
         return data.products.find(product => product.id === productId);
     } catch (error) {
