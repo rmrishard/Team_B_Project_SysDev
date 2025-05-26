@@ -31,6 +31,8 @@ services:
     shm_size: 256mb
     ports:
       - "5555:5432"
+    networks:
+      - hbp-network
     healthcheck:
       test: ["CMD", "pg_isready", "-d", "postgres", "-U", "banana_admin"]
       interval: 120s
@@ -46,11 +48,14 @@ services:
       POSTGRES_PASSWORD_FILE: /run/secrets/pg_pw
       DB_NAME: postgres
       DB_DRIVER: postgresql
+      DB_HOST: postgres
     stop_signal: SIGINT
     volumes:
-      - ./backend:/code/app
+      - ./backend/app:/code/app
     ports:
       - "8000:5000"
+    networks:
+      - hbp-network
     depends_on:
       postgres:
         condition: service_healthy
@@ -76,6 +81,8 @@ services:
       - "8777:8777"
     depends_on:
       - backend
+    networks:
+      - hbp-network
 
 #Secrets for passwords/user accounts
 secrets:
@@ -83,3 +90,7 @@ secrets:
     file: ./secrets/pg_user.txt
   pg_pw:
     file: ./secrets/pg_pw.txt
+
+networks:
+  hbp-network:
+    driver: bridge

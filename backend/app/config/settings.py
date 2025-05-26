@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     db_port: int
     db_name: str
     db_user: str = Field(alias='pg_user')
-    db_pw: str = Field(alias='pg_pw')
+    db_password: str = Field(alias='pg_pw')
     debug_mode: bool = True
     model_config = SettingsConfigDict(secrets_dir='/run/secrets',env_file=f"{os.getcwd()}/app/.env", env_file_encoding="utf-8", extra="ignore")
 

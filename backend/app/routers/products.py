@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException
 from sqlmodel import Field, Session, SQLModel, create_engine, select
-
 from .mocking.products import fake_products as mock_products
 from ..models.products import *
+from app import engine
 
 #Example modified from FastAPI example for APIRouter
 router = APIRouter(
@@ -13,12 +13,17 @@ router = APIRouter(
 
 @router.get("/")
 async def read_items():
-    return mock_products
+    with Session(engine) as session:
+        statement = select(Product)
+        results = session.exec(statement)
+        for product in results:
+            return(product)
+    #return mock_products
 
 
 @router.get("/{item_id}")
 async def read_item(item_id: int):
-    #Do search within logic, move to query for DB server to do later
+    # Do search within logic, move to query for DB server to do later
     matches = list(filter( lambda item: item["id"]==item_id ,mock_products["products"]))
     product = None
 

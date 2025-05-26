@@ -1,7 +1,5 @@
-from typing import Union
 from fastapi import FastAPI
 from .routers import example, products
-from .config.settings import settings
 app = FastAPI()
 
 # Include the example.router
@@ -11,4 +9,4 @@ app.include_router(products.router)
 
 @app.get("/")
 def read_root():
-    return {"Hello": "World","settings":"loads settings"}
+    return {"message": "Hello World"}
