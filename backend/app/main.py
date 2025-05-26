@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from .routers import example, products
-app = FastAPI()
+app = FastAPI(
+    root_path="/api/v1",
+    version="1",
+    openapi_url="/documentation/openapi.json",
+    docs_url="/documentation",
+    redoc_url=None)
 
 # Include the example.router
 # All resources should be built in their own routers file, following that of "example"
