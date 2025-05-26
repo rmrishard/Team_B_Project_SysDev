@@ -1,5 +1,5 @@
 import uuid
-from typing import TYPE_CHECKING, TypedDict, Optional
+from typing import TYPE_CHECKING, TypedDict, Optional, List
 from pydantic import BaseModel, ConfigDict
 from sqlmodel import Field, Session, SQLModel, create_engine, select
 from sqlalchemy.dialects.postgresql import JSONB
@@ -17,6 +17,10 @@ class ProductDetail(TypedDict, total=False):
 
 class ImageDetail(TypedDict, total=False):
     model_config = ConfigDict(extra='ignore')
+    url: Optional[str]
+    label: Optional[str]
+    width: Optional[int]
+    height: Optional[int]
 
 class Product(SQLModel, table=True):
     model_config = ConfigDict(extra='ignore')
@@ -27,6 +31,6 @@ class Product(SQLModel, table=True):
     weight: float
     dimensions: str
     stock_quantity: int
-    image: ImageDetail | None = Field(sa_type=JSONB, nullable=False)
+    image: Optional[List[ImageDetail]] = Field(sa_type=JSONB, nullable=False)
     origin: str
     details: ProductDetail | None  = Field(sa_type=JSONB, nullable=False)
