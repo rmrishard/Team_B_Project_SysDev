@@ -1,8 +1,8 @@
+from typing import Optional, Sequence
 from fastapi import APIRouter, HTTPException
-from sqlmodel import Field, Session, SQLModel, create_engine, select
 from .mocking.products import fake_products as mock_products
 from ..models.products import *
-from app import engine
+from app import engine # works when deployed false error reported by PyCharm IDE
 
 #Example modified from FastAPI example for APIRouter
 router = APIRouter(
@@ -12,12 +12,11 @@ router = APIRouter(
 )
 
 @router.get("/")
-async def read_items():
+async def read_items()->Sequence[Product]:
     with Session(engine) as session:
         statement = select(Product)
         results = session.exec(statement)
-        for product in results:
-            return(product)
+        return results.fetchall()
     #return mock_products
 
 
@@ -35,6 +34,15 @@ async def read_item(item_id: int):
     
     return {"products":[product]}
 
+@router.post("/upload/")
+def create_items(products: List[ProductCreate]):
+    with Session(engine) as session:
+        for product in products:
+            valid_product = Product.model_validate(product)
+            session.add(valid_product)
+        session.commit()
+
+    return products
 
 # @router.put(
 #     "/{item_id}",
