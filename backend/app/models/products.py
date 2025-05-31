@@ -1,10 +1,9 @@
 import uuid
-from typing import TYPE_CHECKING, TypedDict, Optional, List, Union
+from typing import TypedDict, Optional
 
-from pydantic import BaseModel, ConfigDict, Json
-from sqlmodel import Field, Session, SQLModel, create_engine, select
+from pydantic import ConfigDict
 from sqlalchemy.dialects.postgresql import JSONB
-from sqlalchemy import Column
+from sqlmodel import Field, SQLModel
 
 # if referring to other models within this model (example)
 # if TYPE_CHECKING:

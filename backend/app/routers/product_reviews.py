@@ -1,21 +1,21 @@
 from typing import Optional, Sequence, List
 from fastapi import APIRouter, HTTPException
 from sqlmodel import Session, select
-from .mocking.products import fake_products as mock_products
-from ..models.products import *
+from .mocking.product_reviews import fake_product_reviews as mock_products
+from ..models.product_reviews import *
 from app import engine # works when deployed false error reported by PyCharm IDE
 
 #Example modified from FastAPI example for APIRouter
 router = APIRouter(
-    prefix="/products",
-    tags=["products"],
+    prefix="/product_reviews",
+    tags=["product_reviews"],
     responses={404: {"description": "Not found"}},
 )
 
 @router.get("/")
-async def read_items()->Sequence[Product]:
+async def read_items()->Sequence[ProductReview]:
     with Session(engine) as session:
-        statement = select(Product)
+        statement = select(ProductReview)
         results = session.exec(statement)
         return results.fetchall()
     #return mock_products
@@ -24,23 +24,23 @@ async def read_items()->Sequence[Product]:
 @router.get("/{item_id}")
 async def read_item(item_id: int):
     # Do search within logic, move to query for DB server to do later
-    matches = list(filter( lambda item: item["id"]==item_id ,mock_products["products"]))
+    matches = list(filter( lambda item: item["id"]==item_id ,mock_products["product_reviews"]))
     product = None
 
     if len(matches) == 0:
         raise HTTPException(status_code=404, detail="Item not found")
     else:
         #this processing will change when pulling from DB
-        product = Product.model_validate(matches[0])
+        product_review = ProductReview.model_validate(matches[0])
     
-    return {"products":[product]}
+    return {"product_reviews":[product_review]}
 
 @router.post("/upload/")
-def create_items(products: List[ProductCreate]):
+def create_items(product_reviews: List[ProductReviewCreate]):
     with Session(engine) as session:
-        for product in products:
-            valid_product = Product.model_validate(product)
-            session.add(valid_product)
+        for item in product_reviews:
+            valid_product_review = ProductReview.model_validate(item)
+            session.add(valid_product_review)
         session.commit()
 
-    return products
+    return product_reviews
