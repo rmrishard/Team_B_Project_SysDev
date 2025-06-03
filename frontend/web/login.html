@@ -2,24 +2,164 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>Login - Yalla Habibi Imports</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
 </head>
 <body>
+<!-- Navigation Bar  -->
+<nav class="navbar navbar-expand-lg" style="background-color: #D62D20;" aria-label="Main navigation">
+    <div class="container-fluid">
+        <a class="navbar-brand text-white fw-bold" href="index.html">Yalla Habibi</a>
+        <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon text-white"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="index.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="products.html">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="about.html">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="contact.html">Contact</a>
+                </li>
+                <li class="nav-item">
+                    <!-- Added aria-label -->
+                    <a class="nav-link text-white position-relative" href="cart.html" aria-label="Shopping cart">
+                        <i class="fas fa-shopping-cart" aria-hidden="true"></i>
+                        <span id="cartCount" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-danger">
+                            0
+                        </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <!-- Added aria-label  -->
+                    <a class="nav-link text-white active" href="user.html" aria-label="User account" aria-current="page">
+                        <i class="fas fa-user" aria-hidden="true"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="container mt-5">
-    <h2 class="text-center">Login to Your Account</h2>
-    <form id="loginForm" class="mt-4">
-        <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <!-- Added card container  -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4 p-md-5">
+                    <div class="text-center mb-4">
+                        <!-- icon for branding -->
+                        <i class="fas fa-user-circle fa-3x text-danger mb-3" aria-hidden="true"></i>
+                        <h2 class="lebanese-red">Login to Your Account</h2>
+                        <p class="text-muted">Welcome back to Yalla Habibi Imports</p>
+                    </div>
+                    
+                    <!-- Added proper form validation -->
+                    <form id="loginForm" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email address</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-envelope" aria-hidden="true"></i></span>
+                                <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter a valid email address.
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock" aria-hidden="true"></i></span>
+                                <input type="password" class="form-control" id="password" placeholder="Password" required>
+                                <!-- Toggle password visibility button -->
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password')" aria-label="Toggle password visibility">
+                                    <i class="fas fa-eye" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter your password.
+                            </div>
+                        </div>
+                        
+                        <!-- Remember me option -->
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember me</label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-danger w-100 mb-3">Login</button>
+                        
+                        <!-- Forgot password link -->
+                        <div class="text-center mb-3">
+                            <a href="#" class="text-danger">Forgot your password?</a>
+                        </div>
+                        
+                        <!-- Social login options -->
+                        <div class="text-center mb-3">
+                            <p class="text-muted mb-2">Or login with</p>
+                            <div class="d-flex justify-content-center gap-2">
+                                <button type="button" class="btn btn-outline-secondary" aria-label="Login with Google">
+                                    <i class="fab fa-google" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" aria-label="Login with Facebook">
+                                    <i class="fab fa-facebook-f" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn btn-outline-secondary" aria-label="Login with Apple">
+                                    <i class="fab fa-apple" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Registration link -->
+                        <div class="text-center">
+                            <p class="mb-0">Don't have an account? <a href="register.html" class="text-danger">Sign Up</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!--Security indicators -->
+            <div class="text-center mt-3">
+                <p class="small text-muted">
+                    <i class="fas fa-lock me-1" aria-hidden="true"></i> Secure login | Your data is protected
+                </p>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" required>
-        </div>
-        <button type="submit" class="btn btn-danger w-100">Login</button>
-    </form>
+    </div>
 </div>
+
+<!-- Footer for consistency with other pages -->
+<footer class="text-white text-center py-3 mt-5" style="background-color: #D62D20;" role="contentinfo">
+    <div class="container">
+        <p class="mb-2">&copy; <span id="year"></span> Yalla Habibi Imports</p>
+        <p class="mb-0">Bringing the authentic taste of Lebanon to Canada</p>
+        <div class="mt-2">
+            <a href="index.html" class="text-white me-2">Home</a>
+            <a href="products.html" class="text-white me-2">Products</a>
+            <a href="about.html" class="text-white me-2">About Us</a>
+            <a href="contact.html" class="text-white me-2">Contact</a>
+            <a href="cart.html" class="text-white me-2">Cart</a>
+            <a href="user.html" class="text-white me-2">User</a>
+        </div>
+        <div class="mt-2">
+            <!--Added aria-label for social media links -->
+            <a href="#" class="text-white me-2" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            <a href="#" class="text-white me-2" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a href="#" class="text-white" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+        </div>
+    </div>
+</footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="script.js"></script>
