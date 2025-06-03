@@ -10,20 +10,23 @@ from sqlmodel import Field, SQLModel
 #    from .team_model import Team
 
 class ProductDetail(TypedDict, total=False):
-    volume: str | None # either string or null, or this syntax
-    type: Optional[str]
-    certification: str | None
-    arabic_text: str | None
+    volume: str # All fields are optional given that total=False
+    type: str
+    certification: str
+    arabic_text: str
 
-class ImageDetail(SQLModel):
+# We create a base since this field MUST be present
+class ImageDetailBase(TypedDict):
     url: str
+
+# These are optional give than total=False
+class ImageDetail(ImageDetailBase, total=False):
     label: str
-    width: Optional[int] = Field(default=None, nullable=True)
-    height: Optional[int] = Field(default=None, nullable=True)
+    width: int
+    height: int
 
 class ProductBase(SQLModel):
     model_config = ConfigDict(extra='ignore')
-    id: uuid.UUID = Field(alias='product_id', primary_key=True, default_factory=uuid.uuid4, index=True)
     name: str
     description: str
     price: float
@@ -34,9 +37,15 @@ class ProductBase(SQLModel):
     origin: str
     details: ProductDetail | None  = Field(sa_type=JSONB, nullable=False)
 
+#When table=True validation is not done, thus it must be done manually
+class Product(ProductBase, table=True):
+    id: uuid.UUID = Field(alias='product_id', primary_key=True, default_factory=uuid.uuid4, index=True)
+
 class ProductCreate(ProductBase):
     pass
 
-#When table=True validation is not done, thus it must be done manually
-class Product(ProductBase, table=True):
+class ProductPublic(ProductBase):
+    id: uuid.UUID = Field(alias='product_id', primary_key=True, default_factory=uuid.uuid4, index=True)
+
+class ProductUpdate(ProductBase):
     pass

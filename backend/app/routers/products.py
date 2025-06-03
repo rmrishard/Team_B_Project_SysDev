@@ -12,14 +12,12 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get("/")
-async def read_items()->Sequence[Product]:
+@router.get("/",response_model=list[ProductPublic])
+async def read_items():
     with Session(engine) as session:
         statement = select(Product)
-        results = session.exec(statement)
-        return results.fetchall()
-    #return mock_products
-
+        results = session.exec(statement).all()
+        return results
 
 @router.get("/{item_id}")
 async def read_item(item_id: int):
@@ -39,7 +37,9 @@ async def read_item(item_id: int):
 def create_items(products: List[ProductCreate]):
     with Session(engine) as session:
         for product in products:
-            valid_product = Product.model_validate(product)
+            # Exclude unset to the let the DB determine defaults
+            product_data = product.model_dump(exclude_unset=True)
+            valid_product = Product.model_validate(product_data)
             session.add(valid_product)
         session.commit()
 
