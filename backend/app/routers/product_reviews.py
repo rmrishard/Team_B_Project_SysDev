@@ -12,12 +12,12 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get("/")
-async def read_items()->Sequence[ProductReview]:
+@router.get("/", response_model=list[ProductReviewPublic])
+async def read_items():
     with Session(engine) as session:
         statement = select(ProductReview)
-        results = session.exec(statement)
-        return results.fetchall()
+        results = session.exec(statement).all()
+        return results
     #return mock_products
 
 
