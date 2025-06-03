@@ -18,14 +18,12 @@ class ProductReviewBase(SQLModel):
 # When table=True validation is not done, thus it must be done manually
 class ProductReview(ProductReviewBase, table=True):
     product_review_id_pk: uuid.UUID = Field(alias='id', primary_key=True, default_factory=uuid.uuid4, index=True)
-    pass
 
 class ProductReviewCreate(ProductReviewBase):
     pass
 
 class ProductReviewPublic(ProductReviewBase):
     product_review_id_pk: uuid.UUID = Field(alias='id', primary_key=True, default_factory=uuid.uuid4, index=True)
-    pass
 
 class ProductReviewUpdate(ProductReviewBase):
     pass
