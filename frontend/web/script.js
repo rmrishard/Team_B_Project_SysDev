@@ -438,3 +438,36 @@ function loadOrderSummary() {
         </div>
     `;
 }
+document.addEventListener("DOMContentLoaded", function () {
+    // Check if we're on the login page
+    if (window.location.pathname.includes("login.html")) {
+        const loginForm = document.getElementById("loginForm");
+
+        loginForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (email === "" || password === "") {
+                alert("Please enter both email and password");
+                return;
+            }
+
+            // Simulated login check (hardcoded for now)
+            const dummyUser = {
+                email: "user@example.com",
+                password: "123456"
+            };
+
+            if (email === dummyUser.email && password === dummyUser.password) {
+                alert("Login successful!");
+                // Redirect to user profile or homepage
+                window.location.href = "user.html";
+            } else {
+                alert("Invalid credentials. Please try again");
+            }
+        });
+    }
+});
+
