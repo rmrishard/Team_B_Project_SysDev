@@ -34,7 +34,7 @@ class ProductBase(SQLModel):
     dimensions: Optional[str] = Field(default=None)
     stock_quantity: int = Field(default=0)
     image: list[ImageDetail] | None = Field(sa_type=JSONB, nullable=False)
-    origin: str
+    origin: str | None = Field(default=None)
     details: ProductDetail | None  = Field(sa_type=JSONB, nullable=False)
 
 #When table=True validation is not done, thus it must be done manually
