@@ -15,14 +15,19 @@ router = APIRouter(
 
 @router.get("/",response_model=list[ProductPublic])
 async def read_items():
-    return ReadItems.read(Product)
+    items = ReadItems.read(Product)
+
+    if not items:
+        raise HTTPException(status_code=404, detail="No products found")
+
+    return items
 
 @router.get("/{item_id}", response_model=ProductPublic)
 async def read_item(item_id: uuid.UUID):
     item = ReadItems.with_id(Product, item_id)
 
     if not item:
-        raise HTTPException(status_code=404, detail="Item not found")
+        raise HTTPException(status_code=404, detail="Product not found")
     
     return item[0]
 
