@@ -13,7 +13,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get("/",response_model=list[ProductPublicRetrieve])
+@router.get("/", response_model=List[ProductPublicRetrieve])
 async def read_items():
     items = ReadItems.read(Product)
 
