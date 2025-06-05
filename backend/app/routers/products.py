@@ -13,7 +13,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get("/",response_model=list[ProductPublic])
+@router.get("/",response_model=list[ProductPublicRetrieve])
 async def read_items():
     items = ReadItems.read(Product)
 
@@ -22,7 +22,7 @@ async def read_items():
 
     return items
 
-@router.get("/{item_id}", response_model=ProductPublic)
+@router.get("/{item_id}", response_model=ProductPublicRetrieve)
 async def read_item(item_id: uuid.UUID):
     item = ReadItems.with_id(Product, item_id)
 

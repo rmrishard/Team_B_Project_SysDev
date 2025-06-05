@@ -1,7 +1,7 @@
 import uuid
-from typing import TypedDict, Optional
+from typing import TypedDict, Optional, Any
 
-from pydantic import ConfigDict
+from pydantic import ConfigDict, SkipValidation
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlmodel import Field, SQLModel
 
@@ -46,6 +46,12 @@ class ProductCreate(ProductBase):
 
 class ProductPublic(ProductBase):
     id: uuid.UUID = Field(alias='product_id', primary_key=True, default_factory=uuid.uuid4, index=True)
+
+# Use this model when retrieving for public consumption
+class ProductPublicRetrieve(ProductPublic):
+    model_config = ConfigDict(extra='ignore')
+    image: SkipValidation[Any] #We don't enforce checks on JSONB schema on retrieve... only insert
+    details: SkipValidation[Any] #We don't enforce checks on JSONB schema on retrieve... only insert
 
 class ProductUpdate(ProductBase):
     pass
