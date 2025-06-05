@@ -29,7 +29,7 @@ async def read_item(item_id: uuid.UUID):
     if not item:
         raise HTTPException(status_code=404, detail="Product not found")
     
-    return item[0]
+    return item
 
 @router.post("/upload/")
 def create_items(products: List[ProductCreate]):

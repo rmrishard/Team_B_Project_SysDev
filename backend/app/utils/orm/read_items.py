@@ -22,6 +22,6 @@ class ReadItems:
     def with_id(cls, model_type, id):
         with Session(engine) as session:
             statement = select(model_type).where(model_type.id == id)
-            results = session.exec(statement).all()
-            return results
+            result = session.exec(statement).one() #There should only be one match according to id
+            return result
         return None
