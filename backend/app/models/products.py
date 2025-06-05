@@ -19,7 +19,7 @@ class ProductDetail(TypedDict, total=False):
 class ImageDetailBase(TypedDict):
     url: str
 
-# These are optional give than total=False
+# These are optional given that total=False
 class ImageDetail(ImageDetailBase, total=False):
     label: str
     width: int
