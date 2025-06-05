@@ -4,6 +4,7 @@ from sqlmodel import Session, select
 from .mocking.products import fake_products as mock_products
 from ..models.products import *
 from app import engine # works when deployed false error reported by PyCharm IDE
+from app.utils.orm import ReadItems
 
 #Example modified from FastAPI example for APIRouter
 router = APIRouter(
@@ -14,24 +15,16 @@ router = APIRouter(
 
 @router.get("/",response_model=list[ProductPublic])
 async def read_items():
-    with Session(engine) as session:
-        statement = select(Product)
-        results = session.exec(statement).all()
-        return results
+    return ReadItems.read(Product)
 
-@router.get("/{item_id}")
-async def read_item(item_id: int):
-    # Do search within logic, move to query for DB server to do later
-    matches = list(filter( lambda item: item["id"]==item_id ,mock_products["products"]))
-    product = None
+@router.get("/{item_id}", response_model=ProductPublic)
+async def read_item(item_id: uuid.UUID):
+    item = ReadItems.with_id(Product, item_id)
 
-    if len(matches) == 0:
+    if not item:
         raise HTTPException(status_code=404, detail="Item not found")
-    else:
-        #this processing will change when pulling from DB
-        product = Product.model_validate(matches[0])
     
-    return {"products":[product]}
+    return item[0]
 
 @router.post("/upload/")
 def create_items(products: List[ProductCreate]):
