@@ -39,13 +39,18 @@ class ProductBase(SQLModel):
 
 #When table=True validation is not done, thus it must be done manually
 class Product(ProductBase, table=True):
-    id: uuid.UUID = Field(alias='product_id', primary_key=True, default_factory=uuid.uuid4, index=True)
+    product_id_pk: uuid.UUID = Field(alias='id', primary_key=True, default_factory=uuid.uuid4, index=True,schema_extra={'serialization_alias': 'id'})
+
+    # This allows for helper functions to retrieve the appropriate id field
+    @classmethod
+    def getIdField(cls):
+        return cls.product_id_pk
 
 class ProductCreate(ProductBase):
     pass
 
 class ProductPublic(ProductBase):
-    id: uuid.UUID = Field(alias='product_id', primary_key=True, default_factory=uuid.uuid4, index=True)
+    product_id_pk: uuid.UUID = Field(alias='id', primary_key=True, default_factory=uuid.uuid4, index=True,schema_extra={'serialization_alias': 'id'})
 
 # Use this model when retrieving for public consumption
 class ProductPublicRetrieve(ProductPublic):
@@ -55,3 +60,4 @@ class ProductPublicRetrieve(ProductPublic):
 
 class ProductUpdate(ProductBase):
     pass
+

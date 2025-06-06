@@ -21,7 +21,7 @@ class ReadItems:
     @classmethod
     def with_id(cls, model_type, id):
         with Session(engine) as session:
-            statement = select(model_type).where(model_type.id == id)
+            statement = select(model_type).where(model_type.getIdField() == id)
             result = session.exec(statement).one() #There should only be one match according to id
             return result
         return None
