@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <title>Products - Yalla Habibi Imports</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
    <!-- Font Awesome for icons -->
@@ -13,7 +13,7 @@
 </head>
 <body>
     <!-- Navigation   Bar -->
-    <nav class="navbar navbar-expand-lg" style="background-color: #D62D20;">
+    <nav class="navbar navbar-expand-lg" style="background-color: #D62D20;" aria-label="Main navigation">
         <div class="container-fluid">
             <a class="navbar-brand text-white fw-bold" href="#">Yalla Habibi</a>
             <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -34,8 +34,8 @@
                         <a class="nav-link text-white" href="contact.html">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white active position-relative" href="cart.html">
-                            <i class="fas fa-shopping-cart"></i>
+                        <a class="nav-link text-white active position-relative" href="cart.html"  aria-label="Shopping cart">
+                            <i class="fas fa-shopping-cart" aria-hidden="true"></i>
                             <span id="cartCount"
                                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-light text-danger">
                                 0
@@ -43,22 +43,88 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="user.html">
-                            <i class="fas fa-user"></i>
+                        <a class="nav-link text-white" href="user.html" aria-label="User account">
+                            <i class="fas fa-user" aria-hidden="true"></i>
                         </a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+<!-- Breadcrumb navigation for better UX -->
+<nav aria-label="breadcrumb" class="container mt-3">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Products</li>
+  </ol>
+</nav>
 
 
-<div class="container mt-5">
-  <h1 class="text-center lebanese-red mb-5">Our Products</h1>
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="product-list">
-    <!--product cards -->
+  <!--  Filtering and sorting options -->
+  <div class="row mb-4">
+    <div class="col-md-6">
+      <div class="input-group">
+        <input type="text" id="productSearch" class="form-control" placeholder="Search products..." aria-label="Search products">
+        <button class="btn btn-outline-danger" type="button" id="searchButton">
+          <i class="fas fa-search" aria-hidden="true"></i> Search
+        </button>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="d-flex justify-content-md-end mt-3 mt-md-0">
+        <div class="me-2">
+          <select class="form-select" id="categoryFilter" aria-label="Filter by category">
+            <option value="">All Categories</option>
+            <option value="Oils & Condiments">Oils & Condiments</option>
+            <option value="Beverages">Beverages</option>
+            <option value="Nuts & Snacks">Nuts & Snacks</option>
+            <option value="Sweets & Pastries">Sweets & Pastries</option>
+          </select>
+        </div>
+        <div>
+          <select class="form-select" id="sortProducts" aria-label="Sort products">
+            <option value="default">Sort by</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name-asc">Name: A to Z</option>
+            <option value="name-desc">Name: Z to A</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
+  
+  <!-- Loading state for product list -->
+  <div id="loading-products" class="text-center py-5">
+    <div class="spinner-border text-danger" role="status">
+      <span class="visually-hidden">Loading products...</span>
+    </div>
+    <p class="mt-2">Loading products...</p>
+  </div>
+  
+  <!-- Empty state for when no products match filters -->
+  <div id="no-products-found" class="text-center py-5" style="display: none;">
+    <i class="fas fa-search fa-3x text-muted mb-3" aria-hidden="true"></i>
+    <h3>No products found</h3>
+    <p>Try adjusting your search or filter criteria</p>
+  </div>
+  
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" id="product-list">
+    <!-- Product cards will be loaded dynamically -->
+  </div>
+  
+  <!-- Pagination for product listings -->
+  <nav aria-label="Product pagination" class="my-5">
+    <ul class="pagination justify-content-center" id="pagination">
+      <!-- Pagination will be generated dynamically -->
+    </ul>
+  </nav>
 </div>
+<!-- Back to top button -->
+<button id="back-to-top" class="btn btn-danger rounded-circle position-fixed bottom-0 end-0 m-4" style="display: none;" aria-label="Back to top">
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</button>
+
     <!-- Footer -->
     <footer class="text-white  text-center py-3" style="background-color: #D62D20;">
         <div class="container">
@@ -81,8 +147,23 @@
         </div>
 
     </footer>
+<!-- Product detail modal template -->
+<div class="modal fade" id="productDetailModal" tabindex="-1" aria-labelledby="productDetailModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="productDetailModalLabel">Product Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="productDetailContent">
+        <!-- Content will be loaded dynamically -->
+      </div>
+    </div>
+  </div>
+</div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
+
 </body>
 </html>
