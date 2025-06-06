@@ -24,8 +24,8 @@ class SupplierProduct(SupplierProductBase, table=True):
 
 class SupplierProductCreate(SupplierProductBase):
     model_config = ConfigDict(extra='ignore')
-    product_id_fk: uuid.UUID = Field( schema_extra={'validation_alias':AliasChoices('product_id')})
-    supplier_id_fk: uuid.UUID = Field( schema_extra={'validation_alias':AliasChoices('supplier_id')})
+    product_id_fk: uuid.UUID = Field( schema_extra={'serialization_alias': 'product_id','validation_alias':AliasChoices('product_id')})
+    supplier_id_fk: uuid.UUID = Field( schema_extra={'serialization_alias': 'supplier_id','validation_alias':AliasChoices('supplier_id')})
 
     pass
 
