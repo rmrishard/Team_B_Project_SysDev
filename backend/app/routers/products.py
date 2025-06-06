@@ -1,5 +1,5 @@
 from typing import Optional, Sequence, List
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from sqlmodel import Session, select
 from .mocking.products import fake_products as mock_products
 from ..models.products import *
@@ -14,8 +14,9 @@ router = APIRouter(
 )
 
 @router.get("/", response_model=List[ProductPublicRetrieve])
-async def read_items():
-    items = ReadItems.read(Product)
+async def read_items(offset: int = 0, limit: int = Query(default=20, le=100)):
+    select_modifier = lambda sel: sel.offset(offset).limit(limit)   #Adds pagination support
+    items = ReadItems.read(Product, modifier_fn=select_modifier)
 
     if not items:
         raise HTTPException(status_code=404, detail="No products found")
