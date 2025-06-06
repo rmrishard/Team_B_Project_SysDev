@@ -31,7 +31,7 @@ async def read_item(item_id: uuid.UUID):
     
     return item
 
-@router.post("/upload/")
+@router.post("/upload/", response_model=List[ProductPublicRetrieve])
 def create_items(products: List[ProductCreate]):
     with Session(engine) as session:
         for product in products:
