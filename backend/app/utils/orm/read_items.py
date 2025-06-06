@@ -5,10 +5,11 @@ from app import engine # works when deployed false error reported by PyCharm IDE
 class ReadItems:
 
     @classmethod
-    def read(cls,model_type, params=None):
-        if not params:
+    def read(cls,model_type, modifier_fn=None):
+        if not modifier_fn:
             return cls.all(model_type)
-        return None
+        else:
+            return cls.all_with(model_type, modifier_fn)
 
     @classmethod
     def all(cls,model_type):
@@ -17,6 +18,16 @@ class ReadItems:
             results = session.exec(statement).all()
             return results
         return None
+
+    @classmethod
+    def all_with(cls,model_type, modifier_fn):
+        with Session(engine) as session:
+            statement = select(model_type)
+            statement = modifier_fn(statement)
+            results = session.exec(statement).all()
+            return results
+        return None
+
 
     @classmethod
     def with_id(cls, model_type, id):
