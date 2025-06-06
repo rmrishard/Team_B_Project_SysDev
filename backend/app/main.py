@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .routers import example, products, product_reviews, supplier_products, suppliers
+from .routers import example, products, product_reviews, supplier_products, suppliers, enums
 app = FastAPI(
     root_path="/api/v1",
     version="1",
@@ -14,6 +14,7 @@ app.include_router(products.router)
 app.include_router(product_reviews.router)
 app.include_router(supplier_products.router)
 app.include_router(suppliers.router)
+app.include_router(enums.router)
 
 @app.get("/")
 def read_root():
