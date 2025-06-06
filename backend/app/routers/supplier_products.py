@@ -16,7 +16,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get("/", response_model=list[SupplierProductPublic])
+@router.get("/", response_model=List[SupplierProductPublic])
 async def read_items():
     items = ReadItems.read(SupplierProduct)
 
@@ -26,16 +26,16 @@ async def read_items():
     return items
 
 
-@router.get("/{item_id}")
+@router.get("/{item_id}", response_model=SupplierProductPublic)
 async def read_item(item_id: uuid.UUID):
     item = ReadItems.with_id(SupplierProduct, item_id)
 
     if not item:
-        raise HTTPException(status_code=404, detail="Suppler product not found")
+        raise HTTPException(status_code=404, detail="Supplier product not found")
 
     return item
 
-@router.post("/upload/")
+@router.post("/upload/", response_model=List[SupplierProductPublic])
 def create_items(supplier_products: List[SupplierProductCreate]):
     with Session(engine) as session:
         for item in supplier_products:
