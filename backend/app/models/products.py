@@ -2,7 +2,7 @@ import uuid
 from typing import TypedDict, Optional, Any
 
 from pydantic import ConfigDict, SkipValidation
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql.psycopg import JSONB
 from sqlmodel import Field, SQLModel
 
 # if referring to other models within this model (example)

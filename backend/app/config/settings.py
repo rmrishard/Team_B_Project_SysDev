@@ -2,11 +2,8 @@ from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 import os
 
-from sqlalchemy import Alias
-
-
 class Settings(BaseSettings):
-    db_driver: str = "postgresql"
+    db_driver: str
     db_host: str
     db_port: int
     db_name: str
