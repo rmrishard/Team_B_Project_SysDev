@@ -1,9 +1,10 @@
 from typing import Optional, Sequence, List
 from fastapi import APIRouter, HTTPException
 from sqlmodel import Session, select
-from .mocking.product_reviews import fake_product_reviews as mock_products
+from .mocking.product_reviews import fake_product_reviews as mock_product_reviews
 from ..models.product_reviews import *
 from app import engine # works when deployed false error reported by PyCharm IDE
+from app.utils.orm import ReadItems
 
 #Example modified from FastAPI example for APIRouter
 router = APIRouter(
@@ -14,26 +15,22 @@ router = APIRouter(
 
 @router.get("/", response_model=list[ProductReviewPublic])
 async def read_items():
-    with Session(engine) as session:
-        statement = select(ProductReview)
-        results = session.exec(statement).all()
-        return results
-    #return mock_products
+    items = ReadItems.read(ProductReview)
+
+    if not items:
+        raise HTTPException(status_code=404, detail="No product reviews found")
+
+    return items
 
 
 @router.get("/{item_id}")
-async def read_item(item_id: int):
-    # Do search within logic, move to query for DB server to do later
-    matches = list(filter( lambda item: item["id"]==item_id ,mock_products["product_reviews"]))
-    product = None
+async def read_item(item_id: uuid.UUID):
+    item = ReadItems.with_id(ProductReview, item_id)
 
-    if len(matches) == 0:
-        raise HTTPException(status_code=404, detail="Item not found")
-    else:
-        #this processing will change when pulling from DB
-        product_review = ProductReview.model_validate(matches[0])
-    
-    return {"product_reviews":[product_review]}
+    if not item:
+        raise HTTPException(status_code=404, detail="Product review not found")
+
+    return item
 
 @router.post("/upload/")
 def create_items(product_reviews: List[ProductReviewCreate]):

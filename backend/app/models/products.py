@@ -1,7 +1,7 @@
 import uuid
-from typing import TypedDict, Optional
+from typing import TypedDict, Optional, Any
 
-from pydantic import ConfigDict
+from pydantic import ConfigDict, SkipValidation
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlmodel import Field, SQLModel
 
@@ -19,7 +19,7 @@ class ProductDetail(TypedDict, total=False):
 class ImageDetailBase(TypedDict):
     url: str
 
-# These are optional give than total=False
+# These are optional given that total=False
 class ImageDetail(ImageDetailBase, total=False):
     label: str
     width: int
@@ -34,18 +34,30 @@ class ProductBase(SQLModel):
     dimensions: Optional[str] = Field(default=None)
     stock_quantity: int = Field(default=0)
     image: list[ImageDetail] | None = Field(sa_type=JSONB, nullable=False)
-    origin: str
+    origin: str | None = Field(default=None)
     details: ProductDetail | None  = Field(sa_type=JSONB, nullable=False)
 
 #When table=True validation is not done, thus it must be done manually
 class Product(ProductBase, table=True):
-    id: uuid.UUID = Field(alias='product_id', primary_key=True, default_factory=uuid.uuid4, index=True)
+    product_id_pk: uuid.UUID = Field(alias='id', primary_key=True, default_factory=uuid.uuid4, index=True,schema_extra={'serialization_alias': 'id'})
+
+    # This allows for helper functions to retrieve the appropriate id field
+    @classmethod
+    def getIdField(cls):
+        return cls.product_id_pk
 
 class ProductCreate(ProductBase):
     pass
 
 class ProductPublic(ProductBase):
-    id: uuid.UUID = Field(alias='product_id', primary_key=True, default_factory=uuid.uuid4, index=True)
+    product_id_pk: uuid.UUID = Field(alias='id', primary_key=True, default_factory=uuid.uuid4, index=True,schema_extra={'serialization_alias': 'id'})
+
+# Use this model when retrieving for public consumption
+class ProductPublicRetrieve(ProductPublic):
+    model_config = ConfigDict(extra='ignore')
+    image: SkipValidation[Any] #We don't enforce checks on JSONB schema on retrieve... only insert
+    details: SkipValidation[Any] #We don't enforce checks on JSONB schema on retrieve... only insert
 
 class ProductUpdate(ProductBase):
     pass
+
