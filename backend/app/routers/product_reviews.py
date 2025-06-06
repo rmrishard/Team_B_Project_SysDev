@@ -13,7 +13,7 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.get("/", response_model=list[ProductReviewPublic])
+@router.get("/", response_model=List[ProductReviewPublic])
 async def read_items():
     items = ReadItems.read(ProductReview)
 
@@ -23,7 +23,7 @@ async def read_items():
     return items
 
 
-@router.get("/{item_id}")
+@router.get("/{item_id}" , response_model=ProductReviewPublic)
 async def read_item(item_id: uuid.UUID):
     item = ReadItems.with_id(ProductReview, item_id)
 
@@ -32,7 +32,7 @@ async def read_item(item_id: uuid.UUID):
 
     return item
 
-@router.post("/upload/")
+@router.post("/upload/", response_model=List[ProductReviewPublic])
 def create_items(product_reviews: List[ProductReviewCreate]):
     with Session(engine) as session:
         for item in product_reviews:
