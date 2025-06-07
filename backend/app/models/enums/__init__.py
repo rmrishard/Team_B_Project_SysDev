@@ -7,5 +7,6 @@ __all__ = ['order_line_item_types',
            'order_status_types',
            'user_role_types',
            'contact_method_types',
-           'address_types']
+           'address_types',
+           'account_status_types']
 
