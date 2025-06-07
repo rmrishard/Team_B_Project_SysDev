@@ -4,5 +4,6 @@ EnumsRegistered = dict()
 __all__ = ['order_line_item_types',
            'order_types',
            'payment_types',
-           'order_status_types']
+           'order_status_types',
+           'user_role_types']
 
