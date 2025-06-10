@@ -30,8 +30,8 @@ class ProductBase(SQLModel):
     name: str
     description: str
     price: float
-    available: Optional[bool]
-    visible: Optional[bool]
+    available: Optional[bool] = Field(default=True)
+    visible: Optional[bool] = Field(default=False)
     weight: Optional[float] = Field(default=None)
     dimensions: Optional[str] = Field(default=None)
     stock_quantity: int = Field(default=0)
