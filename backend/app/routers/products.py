@@ -1,10 +1,10 @@
 from typing import Optional, Sequence, List
 from fastapi import APIRouter, HTTPException, Query
-from sqlmodel import Session, select
+from sqlmodel import Session, select, update
 from .mocking.products import fake_products as mock_products
 from ..models.products import *
 from app import engine # works when deployed false error reported by PyCharm IDE
-from app.utils.orm import ReadItems
+from app.utils.orm import ReadItems, UpdateItems
 
 #Example modified from FastAPI example for APIRouter
 router = APIRouter(
@@ -31,6 +31,22 @@ async def read_item(item_id: uuid.UUID):
         raise HTTPException(status_code=404, detail="Product not found")
     
     return item
+
+@router.patch("/{item_id}", response_model=ProductPublicRetrieve)
+def update_item(item_id: uuid.UUID, item: ProductUpdate):
+    updated_item = UpdateItems.with_id(Product, item, item_id)
+    # with Session(engine) as session:
+    #     db_item = session.get(Product, item_id)
+    #     if not db_item:
+    #         raise HTTPException(status_code=404, detail="Product not found")
+    #
+    #     item_data = item.model_dump(exclude_unset=True)
+    #     db_item.sqlmodel_update(item_data)
+    #     session.add(db_item)
+    #     session.commit()
+    #     session.refresh(db_item)
+    #     return db_item
+    return updated_item
 
 @router.post("/upload/", response_model=List[ProductPublicRetrieve])
 def create_items(products: List[ProductCreate]):
