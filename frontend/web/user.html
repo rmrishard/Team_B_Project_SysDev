@@ -641,6 +641,63 @@
 
             <!-- Custom JS -->
             <script src="script.js"></script>
+                <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            if (!isLoggedIn) {
+                // Redirect to login page if not logged in
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // Set user information
+            // Populate user info dynamically
+            document.getElementById('userName').textContent = userEmail ? userEmail.split('@')[0] : 'User';
+            document.getElementById('userEmail').textContent = userEmail || 'Loading...';
+            
+            // Populate profile form with user data 
+            const profileEmailInput = document.getElementById('profileEmail');
+            if (profileEmailInput) {
+                profileEmailInput.value = userEmail || '';
+            }
+            
+            // Handle logout
+            document.getElementById('logoutBtn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Clear login state
+                localStorage.removeItem('isLoggedIn');
+                localStorage.removeItem('userEmail');
+                //Clear any other user-specific data from localStorage
+                
+                // Redirect to login page
+                window.location.href = 'login.html';
+            });
+            
+            // Handle profile form submission
+            const profileForm = document.getElementById('profileForm');
+            if (profileForm) {
+                profileForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Add validation styling
+                    profileForm.classList.add('was-validated');
+                    
+                    if (profileForm.checkValidity()) {
+                        // TODO: Add logic to submit profile changes to backend
+                        showSuccessToast('Profile updated successfully.');
+                    }
+                });
+            }
+            
+            // TODO: Add event listeners and logic for address management (add/edit/delete)
+            // TODO: Add event listeners and logic for order details modal
+            // TODO: Add event listeners and logic for wishlist management
+        });
+    </script>
             
 </body>
 
