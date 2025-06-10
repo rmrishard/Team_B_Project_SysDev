@@ -164,6 +164,53 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="script.js"></script>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Back to top button functionality
+    const backToTopButton = document.getElementById('back-to-top');
+    
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 300) {
+        backToTopButton.style.display = 'block';
+      } else {
+        backToTopButton.style.display = 'none';
+      }
+    });
+    
+    backToTopButton.addEventListener('click', function() {
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    });
+    
+    // Search functionality
+    const searchInput = document.getElementById('productSearch');
+    const searchButton = document.getElementById('searchButton');
+    
+    function performSearch() {
+      const searchTerm = searchInput.value.toLowerCase();
+      filterProducts();
+    }
+    
+    searchButton.addEventListener('click', performSearch);
+    searchInput.addEventListener('keyup', function(event) {
+      if (event.key === 'Enter') {
+        performSearch();
+      }
+    });
+    
+    // Category filter functionality
+    const categoryFilter = document.getElementById('categoryFilter');
+    categoryFilter.addEventListener('change', filterProducts);
+    
+    // Sort functionality
+    const sortSelect = document.getElementById('sortProducts');
+    sortSelect.addEventListener('change', filterProducts);
+    
+    function filterProducts() {
+      // This function will be implemented in the main script.js
+      // It's referenced here to show the intended functionality
+    }
+  });
+</script>
 
 </body>
 </html>
