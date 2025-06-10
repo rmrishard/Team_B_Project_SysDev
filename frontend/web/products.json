@@ -72,17 +72,144 @@
     },
         {
       "id": 6,
-      "name": "Traditional Lebanese Biscuits",
-      "description": "Authentic Lebanese biscuits made with premium ingredients, perfect for tea time or as a sweet treat.",
-      "price": 12.99,
-      "image": "products/biscuit.webp",
+      "name": "Premium Walnuts",
+      "description": "High-quality walnuts, perfect for snacking or baking. Rich in omega-3 fatty acids.",
+      "price": 19.99,
+      "image": "products/walnuts.jpg",
       "origin": "Lebanon",
       "details": {
-        "weight": "250g",
-        "type": "Traditional",
-        "characteristic": "Perfect with tea or coffee",
-        "arabic_text": "بسكويت لبناني تقليدي"
+        "weight": "500g",
+        "type": "Nuts",
+        "characteristic": "Healthy snack",
+        "arabic_text": "جوز فاخر"
+      }
+    },
+    {
+      "id": 7,
+      "name": "Premium Pine Nuts",
+      "description": "Finest quality pine nuts, ideal for culinary use or as a healthy snack. Distinctive buttery flavor.",
+      "price": 49.99,
+      "image": "products/pinenuts.jpg",
+      "origin": "Lebanon",
+      "details": {
+        "weight": "200g",
+        "type": "Nuts",
+        "characteristic": "Versatile ingredient",
+        "arabic_text": "صنوبر فاخر"
+      }
+    },
+    {
+      "id": 8,
+      "name": "Dark Blue Product",
+      "description": "A generic product with a dark blue theme, suitable for various uses.",
+      "price": 25.00,
+      "image": "products/darkblue.jpg",
+      "origin": "International",
+      "details": {
+        "color": "Dark Blue",
+        "material": "Plastic",
+        "size": "Standard",
+        "arabic_text": "منتج أزرق داكن"
+      }
+    },
+    {
+      "id": 9,
+      "name": "BoomBoom Energy Drink",
+      "description": "Refreshing energy drink for an instant boost. Perfect for active lifestyles.",
+      "price": 3.50,
+      "image": "products/boomboom.webp",
+      "origin": "Various",
+      "details": {
+        "volume": "250ml",
+        "type": "Energy Drink",
+        "characteristic": "Quick energy boost",
+        "arabic_text": "مشروب الطاقة بوم بوم"
+      }
+    },
+    {
+      "id": 10,
+      "name": "Litani Olive Oil",
+      "description": "Pure Litani olive oil, known for its rich flavor and high quality. Ideal for cooking and dressing.",
+      "price": 29.99,
+      "image": "products/oliveoillitani.jpg",
+      "origin": "Lebanon",
+      "details": {
+        "volume": "1 Liter",
+        "type": "Extra Virgin",
+        "certification": "Premium Quality",
+        "arabic_text": "زيت زيتون الليطاني"
+      }
+    },
+    {
+      "id": 11,
+      "name": "Daily Pads (Version 1)",
+      "description": "Everyday sanitary pads providing comfort and protection. Designed for daily freshness.",
+      "price": 5.99,
+      "image": "products/dailypads1.png",
+      "origin": "International",
+      "details": {
+        "count": "20 pads",
+        "type": "Regular",
+        "feature": "Soft & Absorbent",
+        "arabic_text": "فوط يومية (إصدار 1)"
+      }
+    },
+    {
+      "id": 12,
+      "name": "Daily Pads (Version 2)",
+      "description": "Improved daily sanitary pads for enhanced comfort and superior protection. Stay fresh all day.",
+      "price": 6.49,
+      "image": "products/dailypads.png",
+      "origin": "International",
+      "details": {
+        "count": "22 pads",
+        "type": "Maxi",
+        "feature": "Ultra-thin & Breathable",
+        "arabic_text": "فوط يومية (إصدار 2)"
+      }
+    },
+    {
+      "id": 13,
+      "name": "Freshdays Panty Liners",
+      "description": "Thin and discreet panty liners for everyday freshness and light protection. Individually wrapped.",
+      "price": 4.75,
+      "image": "products/freshdays.webp",
+      "origin": "International",
+      "details": {
+        "count": "30 liners",
+        "type": "Panty Liner",
+        "feature": "Breathable & Flexible",
+        "arabic_text": "فوط يومية فريش دايز"
+      }
+    },
+    {
+      "id": 14,
+      "name": "Private Pads",
+      "description": "Premium sanitary pads for maximum comfort and security. Designed for heavy flow.",
+      "price": 7.99,
+      "image": "products/privatepads.jpg",
+      "origin": "International",
+      "details": {
+        "count": "10 pads",
+        "type": "Super Maxi",
+        "feature": "Winged & Leak-proof",
+        "arabic_text": "فوط خاصة"
+      }
+    },
+    {
+      "id": 15,
+      "name": "Assorted Pads",
+      "description": "Variety pack of sanitary pads for different needs, offering comfort and protection.",
+      "price": 8.99,
+      "image": "products/Pads.jpg",
+      "origin": "International",
+      "details": {
+        "count": "Mixed pack",
+        "type": "Assorted",
+        "feature": "Versatile protection",
+        "arabic_text": "فوط متنوعة"
       }
     }
+
   ]
 }
