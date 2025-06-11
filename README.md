@@ -8,13 +8,12 @@ ________________________________________
 
 Table of Contents
 * 	Project Overview
-* 	System Architecture
 * 	Components
-* 	Request Flow
+* 	System Flow
 * 	Setup & Running
 * 	Backend Structure
 * 	Frontend Structure
-* 	Configuration & Secrets
+* 	Configuration
 * 	CI/CD
 * 	Key Points
 ________________________________________
