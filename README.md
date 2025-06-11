@@ -2,13 +2,13 @@
  <h1>Yalla Habibi</h1>
 
 
-<h3>All in one Lebanese shopping experience in Montreal.</h3>
+<h2>All in one Lebanese shopping experience in Montreal.</h2>
 
 Built with FastAPI backend and a static frontend served by Nginx, fully containerized using Docker Compose for easy local development and deployment.
 
 ________________________________________
 
-###Table of Contents
+<h3>Table of Contents</h3>
 
 * 	Project Overview
 * 	Components
@@ -21,7 +21,7 @@ ________________________________________
 * 	Key Points
 ________________________________________
 
-###Project Overview
+<h3>Project Overview</h3>
 
 Yalla Habibi is a small full-stack web application featuring:
 * 	A **FastAPI** backend serving REST APIs for products, suppliers, orders, users, product reviews, and more, with a **PostgreSQL** database.
@@ -38,13 +38,13 @@ ________________________________________
 | web        | Nginx serving static files and  /api/v1/ to backend | Serves front-end assets and API requests |
 
 
-###Request Flow
+<h3>Request Flow</h3>
 Static content is served directly by Nginx.
 API requests are exchanged by Nginx to the FastAPI backend.
 Backend communicates with the PostgreSQL database
 
 
-###Setup & Running
+<h3>Setup & Running</h3>
 
 Prerequisites
 * Docker Desktop installed and running.
@@ -61,15 +61,15 @@ Prerequisites
 * API endpoints at: http://localhost:8000/api/v1 or through Nginx proxy http://localhost:8777/api/v1
 
 
-###Backend Structure
+<h3>Backend Structure</h3>
 
-###Front-End Structure
+<h3>Front-End Structure</h3>
 
 * HTML, CSS and JS are in the frontend/Web
 * Bootstrap for responsive design
 * Custom CSS and JavScript to handle features
 
-###CI/CD
+<h3>CI/CD</h3>
 
 *	GitHub Actions workflow located at .github/workflows/deploy.yml.
 *	Automatically deploys the updated stack to a VPS on every push to the main branch.
