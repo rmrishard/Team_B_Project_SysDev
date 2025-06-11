@@ -1,8 +1,8 @@
 
- #Yalla Habibi</h1>
+ <h1>Yalla Habibi</h1>
 
 
-##All in one Lebanese shopping experience in Montreal.</h3>
+<h3>All in one Lebanese shopping experience in Montreal.</h3>
 
 Built with FastAPI backend and a static frontend served by Nginx, fully containerized using Docker Compose for easy local development and deployment.
 
