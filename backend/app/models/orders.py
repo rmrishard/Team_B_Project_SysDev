@@ -1,11 +1,12 @@
 import datetime
 import uuid
 from decimal import Decimal
-from typing import Optional, List
-from pydantic import ConfigDict
+from typing import Optional, List, TYPE_CHECKING
+from pydantic import ConfigDict, AliasChoices
 from sqlmodel import Field, SQLModel, Relationship
-from pydantic import AliasChoices
 
+if TYPE_CHECKING:
+    from .order_line_items import OrderLineItem
 
 class OrderBase(SQLModel):
     model_config = ConfigDict(extra='ignore')
