@@ -47,9 +47,9 @@ class OrderLineItemUpdate(OrderLineItemBase):
     model_config = ConfigDict(extra='forbid')
     order_line_id_pk: None = Field(default=None, alias='id',index=True, schema_extra={'serialization_alias': 'id'})
     product_id_fk: None = Field(default=None, alias='product_id', schema_extra={'serialization_alias': 'product_id'})
-    product_name: Optional[str]
-    product_qty: Optional[int]
-    product_price: Optional[Decimal]
-    stock_quantity: Optional[int]
+    product_name: Optional[str] = None
+    product_qty: Optional[int] = None
+    product_price: Optional[Decimal] = None
+    stock_quantity: Optional[int] = None
     order_id_fk: None = Field(default=None, alias='order_id', schema_extra={'serialization_alias': 'order_id'})
     line_type_id_fk: None = Field(default=None, alias='line_type_id', schema_extra={'serialization_alias': 'line_type_id'})
