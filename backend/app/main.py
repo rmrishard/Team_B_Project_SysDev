@@ -15,6 +15,7 @@ app.include_router(product_reviews.router)
 app.include_router(supplier_products.router)
 app.include_router(suppliers.router)
 app.include_router(enums.router)
+app.include_router(orders.router)
 
 @app.get("/")
 def read_root():
