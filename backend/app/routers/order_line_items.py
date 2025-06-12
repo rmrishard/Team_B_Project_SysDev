@@ -27,6 +27,12 @@ async def read_item(item_id: uuid.UUID):
         raise HTTPException(status_code=404, detail="Order line item not found")
     return item
 
+@router.patch("/{item_id}", response_model=OrderLineItemPublicRetrieve)
+def update_item(item_id: uuid.UUID, item: OrderLineItemUpdate):
+    updated_item = UpdateItems.with_id(OrderLineItem, item, item_id)
+    return updated_item
+
+
 @router.post("/upload/", response_model=List[OrderLineItemPublic])
 def create_items(order_line_items: List[OrderLineItemCreate]):
     with Session(engine) as session:
