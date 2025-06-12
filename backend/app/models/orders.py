@@ -70,10 +70,10 @@ class OrderPublicRetrieve(OrderPublic):
 class OrderUpdate(OrderBase):
     model_config = ConfigDict(extra='forbid')
     order_id_pk: None = Field(default=None, alias='id', schema_extra={'serialization_alias': 'id'})
-    user_id_fk: Optional[uuid.UUID] = Field(default=None, alias='user_id')
-    order_status_type_id_fk: Optional[uuid.UUID] = Field(default=None, alias='order_status_type_id')
-    order_type_id_fk: Optional[uuid.UUID] = Field(default=None, alias='order_type_id')
-    payment_type_id_fk: Optional[uuid.UUID] = Field(default=None, alias='payment_type_id')
+    user_id_fk: None = Field(default=None, alias='user_id')
+    order_status_type_id_fk: Optional[int] = Field(default=None, alias='order_status_type_id')
+    order_type_id_fk: Optional[int] = Field(default=None, alias='order_type_id')
+    payment_type_id_fk: Optional[int] = Field(default=None, alias='payment_type_id')
     shipping_address_id_fk: Optional[uuid.UUID] = Field(default=None, alias='shipping_address_id')
     billing_address_id_fk: Optional[uuid.UUID] = Field(default=None, alias='billing_address_id')
     payment_processed: Optional[bool] = None
