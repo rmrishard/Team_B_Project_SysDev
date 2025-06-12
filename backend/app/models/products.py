@@ -1,5 +1,6 @@
 import uuid
 from typing import TypedDict, Optional, Any
+from decimal import Decimal
 
 from pydantic import ConfigDict, SkipValidation
 from sqlalchemy.dialects.postgresql.psycopg import JSONB
@@ -29,10 +30,10 @@ class ProductBase(SQLModel):
     model_config = ConfigDict(extra='ignore')
     name: str
     description: str
-    price: float
+    price: Decimal
     available: Optional[bool] = Field(default=True)
     visible: Optional[bool] = Field(default=False)
-    weight: Optional[float] = Field(default=None)
+    weight: Optional[Decimal] = Field(default=None)
     dimensions: Optional[str] = Field(default=None)
     stock_quantity: int = Field(default=0)
     image: list[ImageDetail] | None = Field(sa_type=JSONB, nullable=False)
@@ -71,10 +72,10 @@ class ProductUpdate(ProductBase):
     product_id_pk: None = Field(default=None, alias='id',schema_extra={'serialization_alias': 'id'}) # DON'T ALLOW PATCHES TO UPDATE PRIMARY KEY!!!
     name: Optional[str] = None
     description: Optional[str] = None
-    price: Optional[float] = None
+    price: Optional[Decimal] = None
     available: Optional[bool] = None
     visible: Optional[bool] = None
-    weight: Optional[float] = None
+    weight: Optional[Decimal] = None
     dimensions: Optional[str] = None
     stock_quantity: Optional[int] = None
     image: list[ImageDetail] | None = Field(sa_type=JSONB, default=None)
