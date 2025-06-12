@@ -61,7 +61,7 @@ Prerequisites
 
 3.	Access the application:
 * Frontend web pages at: http://localhost:8777
-* API endpoints at: http://localhost:8000/api/v1 or through Nginx  http://localhost:8777/api/v1
+* API endpoints at: http://51.222.106.12:8777/api/v1/documentation# 
 
 
 <h4 id="backend-structure">Backend Structure</h4>
