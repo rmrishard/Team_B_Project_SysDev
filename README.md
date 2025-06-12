@@ -41,7 +41,7 @@ ________________________________________
 <h4 id="system-flow">System Flow</h4>
 
 * Static content is served directly by Nginx.
-* API requests are exchanged by Nginx to the FastAPI backend.
+* API requests are forwarded by Nginx to the FastAPI backend.
 * Backend communicates with the PostgreSQL database
 
 
@@ -50,7 +50,7 @@ ________________________________________
 Prerequisites
 * Docker Desktop installed and running.
 * Initial Setup
-1.	Create the following secret files inside the secrets/ directory:
+1.	Create/modify the following secret files inside the secrets/ directory:
 * pg_user.txt – contains your PostgreSQL username.
 * pg_pw.txt – contains your PostgreSQL password.
 
@@ -61,7 +61,7 @@ Prerequisites
 
 3.	Access the application:
 * Frontend web pages at: http://localhost:8777
-* API endpoints at: http://51.222.106.12:8777/api/v1/documentation# 
+* API endpoint documentation at: http://51.222.106.12:8777/api/v1/documentation# 
 
 
 <h4 id="backend-structure">Backend Structure</h4>
