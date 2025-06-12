@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .routers import example, products, product_reviews, supplier_products, suppliers, enums
+from .routers import example, products, product_reviews, supplier_products, suppliers, enums, orders
 app = FastAPI(
     root_path="/api/v1",
     version="1",
