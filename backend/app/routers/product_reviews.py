@@ -4,7 +4,7 @@ from sqlmodel import Session, select
 from .mocking.product_reviews import fake_product_reviews as mock_product_reviews
 from ..models.product_reviews import *
 from app import engine # works when deployed false error reported by PyCharm IDE
-from app.utils.orm import ReadItems
+from app.utils.orm import ReadItems, UpdateItems
 
 #Example modified from FastAPI example for APIRouter
 router = APIRouter(
@@ -31,6 +31,11 @@ async def read_item(item_id: uuid.UUID):
         raise HTTPException(status_code=404, detail="Product review not found")
 
     return item
+
+@router.patch("/{item_id}", response_model=ProductReviewPublicRetrieve)
+def update_item(item_id: uuid.UUID, item: ProductReviewUpdate):
+    updated_item = UpdateItems.with_id(ProductReview, item, item_id)
+    return updated_item
 
 @router.post("/upload/", response_model=List[ProductReviewPublic])
 def create_items(product_reviews: List[ProductReviewCreate]):

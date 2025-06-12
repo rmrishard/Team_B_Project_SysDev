@@ -31,8 +31,23 @@ class ProductReviewCreate(ProductReviewBase):
 class ProductReviewPublic(ProductReviewBase):
     product_review_id_pk: uuid.UUID = Field(alias='id', primary_key=True, default_factory=uuid.uuid4, index=True, schema_extra={'serialization_alias': 'id'})
 
-class ProductReviewUpdate(ProductReviewBase):
+class ProductReviewPublicRetrieve(ProductReviewPublic):
     pass
+
+# This is used to update an already existing entity
+class ProductReviewUpdate(ProductReviewBase):
+    model_config = ConfigDict(extra='forbid')
+    product_review_id_pk: None = Field(default=None, alias='id',schema_extra={'serialization_alias': 'id'}) # DON'T ALLOW PATCHES TO UPDATE PRIMARY KEY!!!
+
+    #These foreign keys are effectively linking relationships and are init (set at creation) only, read-only after
+    product_id_fk: None = Field(default=None, alias='product_id', schema_extra={'serialization_alias': 'product_id'})
+    user_id_fk: None = Field(default=None, alias='user_id', schema_extra={'serialization_alias': 'user_id'})
+
+    rating: Optional[int] = None
+    title: Optional[str] = None
+    content: Optional[str] = None
+    verified_buyer: Optional[bool] = Field(default=False)
+    creation_time: Optional[None] = None    #Created internally by DB, no updates allowed
 
 
 
