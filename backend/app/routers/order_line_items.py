@@ -5,7 +5,7 @@ from sqlmodel import Session
 from app import engine
 from .mocking.order_line_items import fake_order_line_items as mock_items
 from ..models.order_line_items import *
-from app.utils.orm import ReadItems
+from app.utils.orm import ReadItems, UpdateItems
 
 router = APIRouter(
     prefix="/order_line_items",
