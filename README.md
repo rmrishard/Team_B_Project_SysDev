@@ -2,6 +2,9 @@
 
 
 <h2>All in one Lebanese shopping experience in Montreal.</h2>
+<h2>
+  <a href="https://www.yallahabibi.online/" target="_blank" rel="noopener">Link Here</a>
+</h2>
 
 Built with FastAPI backend and a static frontend served by Nginx, fully containerized using Docker Compose for easy local development and deployment.
 
