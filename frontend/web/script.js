@@ -321,7 +321,7 @@ function filterProducts() {
   filteredProducts = allProducts.filter(p => !category || p.category === category);
   currentPage = 1;
   sortProducts(document.getElementById("sortBy")?.value || "");
-  displayProducts();
+  renderProductsPage(currentPage);
   renderPagination();
 }
 
@@ -349,7 +349,7 @@ function renderPagination() {
     if (i === currentPage) btn.classList.add("active");
     btn.addEventListener("click", () => {
       currentPage = i;
-      displayProducts();
+       renderProductsPage(currentPage);
     });
     pagination.appendChild(btn);
   }
