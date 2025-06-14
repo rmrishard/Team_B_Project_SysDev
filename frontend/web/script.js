@@ -45,7 +45,9 @@ async function loadProducts() {
   } catch (error) {
     try {
       const fallback = await fetch("products.json");
-      allProducts = await fallback.json();
+      const fallbackData = await fallback.json();
+      allProducts = fallbackData.products || [];
+      console.warn("Using fallback products.json due to API failure:", error);
     } catch {
       container.innerHTML = `<p>Could not load products.</p>`;
       return;
