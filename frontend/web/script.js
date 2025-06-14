@@ -108,7 +108,7 @@ function renderProductsPage(page) {
   }
 
   productsToShow.forEach(product => {
-    const imgSrc = product.image?.[0]?.url || "products/placeholder.jpg";
+    const imgSrc = product.image || "products/placeholder.jpg";
     const card = `
       <div class="col">
         <div class="card h-100">
@@ -159,7 +159,7 @@ async function showProductDetail(productId) {
 
   if (!product) return;
 
-  const imgSrc = product.image?.[0]?.url || "products/placeholder.jpg";
+  const imgSrc = product.image || "products/placeholder.jpg";
   content.innerHTML = `
     <div class="row">
       <div class="col-md-5">
@@ -199,7 +199,7 @@ function addToCart(productId, quantity = 1) {
         id: product.id,
         name: product.name,
         price: parseFloat(product.price),
-        image: product.image?.[0]?.url || "products/placeholder.jpg",
+        image: product.image || "products/placeholder.jpg",
         quantity
       });
     }

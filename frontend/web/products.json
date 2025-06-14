@@ -5,7 +5,7 @@
       "name": "El-Koura Extra Virgin Olive Oil",
       "description": "Premium cold-pressed olive oil with no cholesterol. Naturally extracted using traditional methods. Product of Safer region.",
       "price": 34.99,
-      "image": "products/olive-oil.jpg",
+      "image": "https://www.yallahabibi.online/products/olive-oil.jpg",
       "origin": "Lebanon",
       "available": true,
       "visible": true,
