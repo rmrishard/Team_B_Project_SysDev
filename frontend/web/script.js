@@ -110,7 +110,15 @@ function renderProductsPage(page) {
   }
 
   productsToShow.forEach(product => {
-    const imgSrc = product.image || "products/placeholder.jpg";
+    let imgSrc = null;
+    if ( Array.isArray(product.image)){
+        imgSrc = product.image.at(0)["url"];
+    } else if (product.image) {
+        imgSrc = product.image.url;
+    }
+
+    imgSrc = imgSrc || "products/placeholder.jpg";
+
     const card = `
       <div class="col">
         <div class="card h-100">
