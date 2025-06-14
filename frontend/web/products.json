@@ -7,6 +7,8 @@
       "price": 34.99,
       "image": "products/olive-oil.jpg",
       "origin": "Lebanon",
+      "available": true,
+      "visible": true,
       "details": {
         "volume": "3 Liters (101 FL. OZ)",
         "type": "Cold Pressed",
@@ -21,6 +23,8 @@
       "price": 14.99,
       "image": "products/Tea.jpeg",
       "origin": "Lebanon",
+      "available": true,
+      "visible": true,
       "details": {
         "weight": "400g",
         "type": "Herbal Tea Blend",
@@ -35,6 +39,8 @@
       "price": 319.99,
       "image": "products/nuts.jpg",
       "origin": "Lebanon",
+      "available": true,
+      "visible": true,
       "details": {
         "weight": "5 kg",
         "type": "Premium ",
@@ -49,6 +55,8 @@
       "price": 715.99,
       "image": "products/nuts1.jpg",
       "origin": "Lebanon",
+      "available": true,
+      "visible": true,
       "details": {
         "weight": "5 kg",
         "type": "Premium ",
@@ -63,6 +71,8 @@
       "price": 12.99,
       "image": "products/biscuit.webp",
       "origin": "Lebanon",
+      "available": true,
+      "visible": true,
       "details": {
         "weight": "250g",
         "type": "Traditional",
@@ -70,13 +80,15 @@
         "arabic_text": "بسكويت لبناني تقليدي"
       }
     },
-        {
+    {
       "id": 6,
       "name": "Premium Walnuts",
       "description": "High-quality walnuts, perfect for snacking or baking. Rich in omega-3 fatty acids.",
       "price": 19.99,
       "image": "products/walnuts.jpg",
       "origin": "Lebanon",
+      "available": true,
+      "visible": true,
       "details": {
         "weight": "500g",
         "type": "Nuts",
@@ -91,6 +103,8 @@
       "price": 49.99,
       "image": "products/pinenuts.jpg",
       "origin": "Lebanon",
+      "available": true,
+      "visible": true,
       "details": {
         "weight": "200g",
         "type": "Nuts",
@@ -105,6 +119,8 @@
       "price": 25.00,
       "image": "products/darkblue.jpg",
       "origin": "International",
+      "available": true,
+      "visible": true,
       "details": {
         "color": "Dark Blue",
         "material": "Plastic",
@@ -119,6 +135,8 @@
       "price": 3.50,
       "image": "products/boomboom.webp",
       "origin": "Various",
+      "available": true,
+      "visible": true,
       "details": {
         "volume": "250ml",
         "type": "Energy Drink",
@@ -133,6 +151,8 @@
       "price": 29.99,
       "image": "products/oliveoillitani.jpg",
       "origin": "Lebanon",
+      "available": true,
+      "visible": true,
       "details": {
         "volume": "1 Liter",
         "type": "Extra Virgin",
@@ -147,6 +167,8 @@
       "price": 5.99,
       "image": "products/dailypads1.png",
       "origin": "International",
+      "available": true,
+      "visible": true,
       "details": {
         "count": "20 pads",
         "type": "Regular",
@@ -161,6 +183,8 @@
       "price": 6.49,
       "image": "products/dailypads.png",
       "origin": "International",
+      "available": true,
+      "visible": true,
       "details": {
         "count": "22 pads",
         "type": "Maxi",
@@ -175,6 +199,8 @@
       "price": 4.75,
       "image": "products/freshdays.webp",
       "origin": "International",
+      "available": true,
+      "visible": true,
       "details": {
         "count": "30 liners",
         "type": "Panty Liner",
@@ -189,6 +215,8 @@
       "price": 7.99,
       "image": "products/privatepads.jpg",
       "origin": "International",
+      "available": true,
+      "visible": true,
       "details": {
         "count": "10 pads",
         "type": "Super Maxi",
@@ -203,6 +231,8 @@
       "price": 8.99,
       "image": "products/Pads.jpg",
       "origin": "International",
+      "available": true,
+      "visible": true,
       "details": {
         "count": "Mixed pack",
         "type": "Assorted",
@@ -210,6 +240,5 @@
         "arabic_text": "فوط متنوعة"
       }
     }
-
   ]
 }
