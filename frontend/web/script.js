@@ -1,5 +1,7 @@
 // script.js
 
+const API_BASE_URL = "https://www.yallahabibi.online/api/v1";
+
 let allProducts = []; // all products from API or fallback
 let filteredProducts = []; // products after filtering
 let currentPage = 1;
@@ -37,7 +39,7 @@ async function loadProducts() {
   allProducts = [];
 
   try {
-    const response = await fetch("http://51.222.106.12:8777/api/v1/products/");
+    const response = await fetch(`${API_BASE_URL}/products/`);
     if (!response.ok) throw new Error("API failed");
     allProducts = await response.json();
   } catch (error) {
@@ -266,7 +268,7 @@ function loadOrderSummary() {
 
 async function getProductById(productId) {
   try {
-    const response = await fetch(`http://51.222.106.12:8777/api/v1/products/${productId}`);
+    const response = await fetch(`${API_BASE_URL}/products/${productId}`);
     if (!response.ok) throw new Error("Not found");
     return await response.json();
   } catch {
@@ -291,4 +293,64 @@ function setupRegistrationForm() {
     alert("✅ Registered!");
     form.reset();
   });
+}
+// =========================
+// Filter + Sort + Pagination Enhancements
+// =========================
+
+document.addEventListener("DOMContentLoaded", () => {
+  const categoryFilter = document.getElementById("categoryFilter");
+  if (categoryFilter) {
+    categoryFilter.addEventListener("change", () => {
+      filterProducts();
+      renderPagination();
+    });
+  }
+
+  const sortBy = document.getElementById("sortBy");
+  if (sortBy) {
+    sortBy.addEventListener("change", () => {
+      sortProducts(sortBy.value);
+      renderPagination();
+    });
+  }
+});
+
+function filterProducts() {
+  const category = document.getElementById("categoryFilter")?.value;
+  filteredProducts = allProducts.filter(p => !category || p.category === category);
+  currentPage = 1;
+  sortProducts(document.getElementById("sortBy")?.value || "");
+  displayProducts();
+  renderPagination();
+}
+
+function sortProducts(criteria) {
+  if (!filteredProducts) return;
+  if (criteria === "priceAsc") {
+    filteredProducts.sort((a, b) => a.price - b.price);
+  } else if (criteria === "priceDesc") {
+    filteredProducts.sort((a, b) => b.price - a.price);
+  } else if (criteria === "name") {
+    filteredProducts.sort((a, b) => a.name.localeCompare(b.name));
+  }
+}
+
+function renderPagination() {
+  const pagination = document.getElementById("pagination");
+  if (!pagination) return;
+  pagination.innerHTML = "";
+
+  const totalPages = Math.ceil(filteredProducts.length / pageSize);
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement("button");
+    btn.textContent = i;
+    btn.className = "btn btn-outline-secondary m-1";
+    if (i === currentPage) btn.classList.add("active");
+    btn.addEventListener("click", () => {
+      currentPage = i;
+      displayProducts();
+    });
+    pagination.appendChild(btn);
+  }
 }

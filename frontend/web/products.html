@@ -71,7 +71,7 @@
   <option value="Assorted">Assorted</option>
 </select>
 
-        <select class="form-select" id="sortProducts">
+        <select class="form-select" id="sortBy">
           <option value="default">Sort by</option>
           <option value="price-asc">Price: Low to High</option>
           <option value="price-desc">Price: High to Low</option>
@@ -160,8 +160,7 @@
     document.getElementById("productSearch").addEventListener("keyup", e => {
       if (e.key === "Enter") filterProducts();
     });
-    document.getElementById("categoryFilter").addEventListener("change", filterProducts);
-    document.getElementById("sortProducts").addEventListener("change", filterProducts);
+
   </script>
 </body>
 </html>
