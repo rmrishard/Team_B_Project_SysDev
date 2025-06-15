@@ -214,13 +214,9 @@ function addToCart(productId, quantity = 1) {
       });
     }
 
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCartCount();
-
-    //Show confirmation with product name
+    updateCartStorage();
     alert(`🛒 ${product.name} added to cart!`);
-
-    // Ask if user wants to view cart
+    
     if (confirm("🛒 Product added to cart! Would you like to view your cart now?")) {
       window.location.href = "cart.html";
     }
@@ -228,25 +224,60 @@ function addToCart(productId, quantity = 1) {
 }
 
 
+// Save cart and refresh UI
+function updateCartStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+  loadCartCount();
+  if (window.location.pathname.endsWith("cart.html")) loadCartItems();
+  if (window.location.pathname.endsWith("checkout.html")) loadOrderSummary();
+}
 
+// Display total item count in navbar
 function loadCartCount() {
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
   const badge = document.getElementById("cart-count");
   if (badge) badge.textContent = count;
 }
 
+// ✅ Main cart loader for cart.html
 function loadCartItems() {
   const container = document.getElementById("cart-items");
-  let total = 0;
   container.innerHTML = "";
+  let total = 0;
+
+  if (cart.length === 0) {
+    container.innerHTML = `
+      <div class="text-center py-5">
+        <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
+        <h5 class="text-muted">Your cart is empty</h5>
+        <a href="products.html" class="btn btn-danger mt-3">Start Shopping</a>
+      </div>
+    `;
+    document.getElementById("cart-total").textContent = `0.00 CAD`;
+    return;
+  }
 
   cart.forEach(item => {
-    total += item.price * item.quantity;
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
+
     container.innerHTML += `
-      <div class="cart-item">
-        <img src="${item.image}" alt="${item.name}">
-        <h4>${item.name}</h4>
-        <p>${item.quantity} × ${item.price} CAD</p>
+      <div class="row align-items-center mb-3 border-bottom pb-2">
+        <div class="col-3 col-md-2">
+          <img src="${item.image}" alt="${item.name}" class="img-fluid rounded">
+        </div>
+        <div class="col-5 col-md-6">
+          <h5>${item.name}</h5>
+          <p class="text-muted mb-0">${item.quantity} × ${item.price.toFixed(2)} CAD</p>
+        </div>
+        <div class="col-2">
+          <h6>${(itemTotal).toFixed(2)} CAD</h6>
+        </div>
+        <div class="col-2 text-end">
+          <button class="btn btn-sm btn-outline-danger" onclick="removeFromCart('${item.id}')">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
       </div>
     `;
   });
@@ -254,17 +285,26 @@ function loadCartItems() {
   document.getElementById("cart-total").textContent = `${total.toFixed(2)} CAD`;
 }
 
+// Remove product from cart
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  updateCartStorage();
+}
+
+// Show cart summary on checkout.html
 function loadOrderSummary() {
   const container = document.getElementById("order-summary");
-  let total = 0;
+  
   container.innerHTML = "";
+  let total = 0;
 
   cart.forEach(item => {
-    total += item.price * item.quantity;
+    const itemTotal = item.price * item.quantity;
+    total += itemTotal;
     container.innerHTML += `
-      <div class="order-item">
+      <div class="order-item d-flex justify-content-between">
         <span>${item.name} (${item.quantity})</span>
-        <span>${(item.price * item.quantity).toFixed(2)} CAD</span>
+        <span>${itemTotal.toFixed(2)} CAD</span>
       </div>
     `;
   });
