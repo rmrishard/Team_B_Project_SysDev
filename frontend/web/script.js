@@ -291,26 +291,57 @@ function removeFromCart(productId) {
   updateCartStorage();
 }
 
-// Show cart summary on checkout.html
 function loadOrderSummary() {
-  const container = document.getElementById("order-summary");
-  
-  container.innerHTML = "";
-  let total = 0;
+  const orderSummaryContainer = document.getElementById('orderSummary');
+  if (!orderSummaryContainer) return;
 
-  cart.forEach(item => {
-    const itemTotal = item.price * item.quantity;
-    total += itemTotal;
-    container.innerHTML += `
-      <div class="order-item d-flex justify-content-between">
-        <span>${item.name} (${item.quantity})</span>
-        <span>${itemTotal.toFixed(2)} CAD</span>
+  if (cart.length === 0) {
+    orderSummaryContainer.innerHTML = `
+      <div class="alert alert-warning">
+        Your cart is empty. <a href="products.html">Continue shopping</a>
       </div>
     `;
-  });
+    return;
+  }
 
-  document.getElementById("order-total").textContent = `${total.toFixed(2)} CAD`;
+  const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+  const shipping = subtotal > 0 ? 10 : 0;
+  const tax = subtotal * 0.13;
+  const total = subtotal + shipping + tax;
+
+  orderSummaryContainer.innerHTML = `
+    <div class="mb-3">
+      ${cart.map(item => `
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div>
+            <h6 class="mb-0">${item.name}</h6>
+            <small class="text-muted">Qty: ${item.quantity}</small>
+          </div>
+          <span>$${(item.price * item.quantity).toFixed(2)}</span>
+        </div>
+      `).join('')}
+    </div>
+    <hr>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Subtotal</span>
+      <span>$${subtotal.toFixed(2)}</span>
+    </div>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Shipping</span>
+      <span>$${shipping.toFixed(2)}</span>
+    </div>
+    <div class="d-flex justify-content-between mb-2">
+      <span>Tax (13%)</span>
+      <span>$${tax.toFixed(2)}</span>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-between mb-2">
+      <strong>Total</strong>
+      <strong>$${total.toFixed(2)}</strong>
+    </div>
+  `;
 }
+
 
 // =========================
 // Utilities
