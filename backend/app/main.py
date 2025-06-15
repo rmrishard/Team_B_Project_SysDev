@@ -1,5 +1,6 @@
 from fastapi import FastAPI
-from .routers import example, products, product_reviews, supplier_products, suppliers, enums, orders, order_line_items, shopping_carts, shopping_cart_items
+from .routers import example, products, product_reviews, supplier_products, suppliers, enums, orders, order_line_items, \
+    shopping_carts, shopping_cart_items, users
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -9,7 +10,6 @@ app = FastAPI(
     openapi_url="/documentation/openapi.json",
     docs_url="/documentation",
     redoc_url=None)
-
 
 # Setup origins that may be triggered by local testing
 origins = [
@@ -24,9 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include the example.router
-# All resources should be built in their own routers file, following that of "example"
-app.include_router(example.router)
+# All resources should be built in their own routers file
 app.include_router(products.router)
 app.include_router(product_reviews.router)
 app.include_router(supplier_products.router)
@@ -36,7 +34,13 @@ app.include_router(orders.router)
 app.include_router(order_line_items.router)
 app.include_router(shopping_carts.router)
 app.include_router(shopping_cart_items.router)
+app.include_router(users.router)
 
 @app.get("/")
 def read_root():
-    return {"message": "Hello World"}
+    return {"message": "Hello wide world, waiting to service requests!"}
+
+# For heartbeat/is-alive checks
+@app.get("/ping")
+def ping():
+    return {"ping":"pong"}
