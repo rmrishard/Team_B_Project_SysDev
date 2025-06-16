@@ -74,6 +74,7 @@ class ProductUpdate(ProductBase):
     name: Optional[str] = None
     description: Optional[str] = None
     price: Optional[Decimal] = None
+    category: Optional[str] = None
     available: Optional[bool] = None
     visible: Optional[bool] = None
     weight: Optional[Decimal] = None
