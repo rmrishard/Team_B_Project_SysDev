@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Any
 import uuid
 from fastapi import APIRouter, HTTPException, Query
 from sqlmodel import Session
@@ -6,6 +6,7 @@ from app import engine
 from .mocking.orders import fake_orders as mock_items
 from ..models.orders import *
 from app.utils.orm import ReadItems, UpdateItems
+from app.services.order import OrderService
 
 router = APIRouter(
     prefix="/orders",
@@ -46,6 +47,12 @@ def update_item(item_id: uuid.UUID, item: OrderUpdate):
 #     # Recalculate total using the model method
 #     item.calculate_total()
 #     return float(item.total)
+
+@router.post("/create", response_model=Any )#OrderPublicRetrieve)
+def create_order(order_request: OrderCreate):
+    new_order = OrderService.create_order(order_request)
+
+    return new_order
 
 @router.post("/upload/", response_model=List[OrderPublicRetrieve])
 def create_items(orders: List[OrderCreate]):

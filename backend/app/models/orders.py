@@ -1,7 +1,7 @@
 import datetime
 import uuid
 from decimal import Decimal
-from typing import Optional, List, TYPE_CHECKING
+from typing import TypedDict, Optional, List, TYPE_CHECKING
 from pydantic import ConfigDict, AliasChoices
 from sqlmodel import Field, SQLModel, Relationship
 
@@ -38,6 +38,9 @@ class Order(OrderBase, table=True):
     def getName(cls):
         return "Order"
 
+class OrderLineItemStub(TypedDict):
+    product_id: uuid.UUID
+    quantity: int
 
 class OrderCreate(OrderBase):
     order_status_type_id_fk : int = Field(
@@ -53,6 +56,8 @@ class OrderCreate(OrderBase):
     billing_address_id_fk: uuid.UUID = Field(
         schema_extra={'serialization_alias': 'billing_address_id','validation_alias': 'billing_address_id'})
 
+    #For creating related line items
+    line_items: Optional[List[OrderLineItemStub]] = None
 
 
 
