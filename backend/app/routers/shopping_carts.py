@@ -2,6 +2,8 @@ from typing import List
 import uuid
 from fastapi import APIRouter, HTTPException
 from sqlmodel import Session
+from sqlalchemy.exc import IntegrityError
+
 from app import engine
 from .mocking.shopping_carts import fake_shopping_carts as mock_items
 from ..models.shopping_carts import *
@@ -37,9 +39,14 @@ def update_item(item_id: uuid.UUID, item: ShoppingCartUpdate):
 
 @router.post("/upload/", response_model=List[ShoppingCartPublic])
 def create_items(shopping_carts: List[ShoppingCartCreate]):
-    with Session(engine) as session:
-        for item in shopping_carts:
-            valid_item = ShoppingCart.model_validate(item)
-            session.add(valid_item)
-        session.commit()
+    try:
+        with Session(engine) as session:
+            for item in shopping_carts:
+                valid_item = ShoppingCart.model_validate(item)
+                session.add(valid_item)
+            session.commit()
+    except IntegrityError as error:
+        print(error)
+        raise HTTPException(status_code=409, detail="Error creating cart")
+
     return shopping_carts
