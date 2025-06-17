@@ -40,7 +40,7 @@ class ShoppingCartPublic(ShoppingCartBase):
 class ShoppingCartUpdate(ShoppingCartBase):
     model_config = ConfigDict(extra='forbid')
     shopping_cart_id_pk: None = Field(default=None, alias='id', index=True, schema_extra={'serialization_alias': 'id'})
-    user_id_fk: None = Field(default=None, alias='user_id')
+    user_id_fk: None = Field(default=None, alias='user_id') #Don't allow changing of user
     modification_time: Optional[datetime.datetime] = None
     empty: Optional[bool] = None
-    guest_token: Optional[uuid.UUID] = None
+    guest_token: None = None #Don't allow changing of guest_token
