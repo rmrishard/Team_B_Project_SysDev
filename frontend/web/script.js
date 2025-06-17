@@ -188,6 +188,10 @@ function renderProductsPage(page) {
           </div>
           <div class="card-footer bg-white border-0">
             <button class="btn btn-danger w-100" onclick="addToCart('${product.id}')">Add to Cart</button>
+              <button class="btn btn-outline-danger w-100" onclick="addToWishlist('${product.id}')">
+    <i class="fas fa-heart"></i> Add to Wishlist
+  </button>
+
           </div>
         </div>
       </div>
@@ -250,6 +254,9 @@ async function showProductDetail(productId) {
         <p><strong>Type:</strong> ${product.details?.type || "N/A"}</p>
         <p><strong>Price:</strong> $${product.price} CAD</p>
         <button class="btn btn-danger mt-3" onclick="addToCart('${product.id}')">Add to Cart</button>
+        <button class="btn btn-outline-danger mt-3" onclick="addToWishlist('${product.id}')">
+          <i class="fas fa-heart"></i> Add to Wishlist
+        </button>
       </div>
     </div>
   `;
@@ -813,4 +820,225 @@ async function submitOrder(orderData) {
   } catch (error) {
     throw new Error("Order submission error: " + error.message);
   }
+}
+// =========================
+// USER DASHBOARD LOGIC
+// =========================
+
+function initializeUserDashboard() {
+  const isLoggedIn = localStorage.getItem('isLoggedIn');
+  const userEmail = localStorage.getItem('userEmail');
+
+  if (!isLoggedIn || !userEmail) {
+    window.location.href = 'login.html';
+    return;
+  }
+
+  document.getElementById('userName').textContent = userEmail.split('@')[0];
+  document.getElementById('userEmail').textContent = userEmail;
+  const profileEmailInput = document.getElementById('profileEmail');
+  if (profileEmailInput) profileEmailInput.value = userEmail;
+
+  document.getElementById('logoutBtn')?.addEventListener('click', function (e) {
+    e.preventDefault();
+    localStorage.clear();
+    window.location.href = 'login.html';
+  });
+
+  const profileForm = document.getElementById('profileForm');
+  if (profileForm) {
+    profileForm.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      profileForm.classList.add('was-validated');
+
+      if (profileForm.checkValidity()) {
+        // Simulated backend update
+        showSuccessToast('Profile updated successfully.');
+      }
+    });
+  }
+
+  loadOrders();
+  loadAddresses();
+  loadWishlist();
+}
+
+async function loadOrders() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders`, {
+      method: 'GET',
+      headers: getAuthHeaders()
+    });
+    const orders = await response.json();
+    const tbody = document.getElementById('recentOrdersTableBody');
+    if (!orders.length) {
+      tbody.innerHTML = '<tr><td colspan="5" class="text-center text-muted">No recent orders found.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = orders.slice(0, 5).map(order => `
+      <tr>
+        <td>${order.orderId}</td>
+        <td>${new Date(order.orderDate).toLocaleDateString()}</td>
+        <td>${order.status}</td>
+        <td>$${order.total.toFixed(2)}</td>
+        <td>
+          <button class="btn btn-sm btn-outline-danger" onclick="viewOrderDetails('${order.orderId}')">
+            View
+          </button>
+        </td>
+      </tr>`).join('');
+  } catch (error) {
+    console.error('Failed to load orders:', error);
+  }
+}
+
+// Fetch full order details by orderId 
+async function fetchOrderDetails(orderId) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders/${orderId}`, {
+      headers: getAuthHeaders()
+    });
+    if (!response.ok) throw new Error("Failed to load order details");
+    return await response.json();
+  } catch (error) {
+    console.error("fetchOrderDetails error:", error);
+    return null;
+  }
+}
+
+// Render full order detail into the modal
+function renderOrderDetails(order) {
+  if (!order) return "<div class='text-danger'>Order not found.</div>";
+  return `
+    <h5>Order #${order.orderId}</h5>
+    <p><strong>Date:</strong> ${new Date(order.orderDate).toLocaleDateString()}</p>
+    <p><strong>Status:</strong> ${order.status}</p>
+    <ul class="list-group mb-3">
+      ${order.items.map(item => `
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>${item.name}</strong><br>
+            <small>Qty: ${item.quantity} × $${item.price.toFixed(2)}</small>
+          </div>
+          <span>$${(item.price * item.quantity).toFixed(2)}</span>
+        </li>
+      `).join("")}
+    </ul>
+    <p><strong>Total:</strong> $${order.total.toFixed(2)}</p>
+  `;
+}
+
+
+async function loadAddresses() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/addresses`, {
+      headers: getAuthHeaders()
+    });
+    const addresses = await response.json();
+    const container = document.getElementById('addressList');
+    if (!addresses.length) {
+      container.innerHTML = '<div class="col-12 text-center text-muted">No addresses found.</div>';
+      return;
+    }
+
+    container.innerHTML = addresses.map(address => `
+      <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">${address.addressName}</h5>
+            <p class="card-text">${address.fullName}<br>${address.addressLine1}, ${address.city}, ${address.province} ${address.postalCode}</p>
+            <p class="card-text"><strong>Phone:</strong> ${address.phone}</p>
+          </div>
+        </div>
+      </div>`).join('');
+  } catch (error) {
+    console.error("Error loading addresses:", error);
+  }
+}
+
+async function loadWishlist() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/wishlist`, {
+      headers: getAuthHeaders()
+    });
+    const wishlist = await response.json();
+    const container = document.getElementById('wishlistItems');
+
+    if (!wishlist.length) {
+      document.getElementById("emptyWishlist").style.display = "block";
+      container.innerHTML = '';
+      return;
+    }
+
+    document.getElementById("emptyWishlist").style.display = "none";
+    container.innerHTML = wishlist.map(item => `
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <img src="${item.image}" class="card-img-top" alt="${item.name}">
+          <div class="card-body">
+            <h4 class="h6">${item.name}</h4>
+            <p class="text-danger fw-bold">$${item.price.toFixed(2)}</p>
+            <button class="btn btn-sm btn-outline-danger w-100" onclick="addToCart('${item.id}')">
+              <i class="fas fa-cart-plus me-1"></i> Add to Cart
+            </button>
+            <!-- === NEW === Remove from wishlist button -->
+            <button class="btn btn-sm btn-link text-danger mt-2" onclick="removeFromWishlist('${item.id}')">
+              <i class="fas fa-heart-broken"></i> Remove
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  } catch (error) {
+    console.error("Error loading wishlist:", error);
+  }
+}
+// Add to wishlist
+async function addToWishlist(productId) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/wishlist`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ productId })
+    });
+    if (!response.ok) throw new Error("Failed to add to wishlist");
+    showSuccessToast("Added to wishlist!");
+  } catch (error) {
+    console.error("Add to wishlist error:", error);
+  }
+}
+
+//  Remove from wishlist
+async function removeFromWishlist(productId) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/wishlist/${productId}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to remove from wishlist');
+    showSuccessToast('Removed from wishlist!');
+    loadWishlist();
+  } catch (error) {
+    console.error('Remove from wishlist error:', error);
+  }
+}
+
+function showSuccessToast(message) {
+  const toast = document.createElement("div");
+  toast.className = 'toast-container position-fixed top-0 end-0 p-3';
+  toast.innerHTML = `
+    <div class="toast show" role="alert">
+      <div class="toast-header">
+        <strong class="me-auto">Success</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+      </div>
+      <div class="toast-body">${message}</div>
+    </div>`;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+}
+
+if (window.location.pathname.endsWith("user.html")) {
+  document.addEventListener("DOMContentLoaded", initializeUserDashboard);
 }
