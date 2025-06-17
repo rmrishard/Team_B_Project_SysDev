@@ -23,7 +23,48 @@ function initializeApp() {
     loadProducts();
   }
 
-  if (document.getElementById("registrationForm")) setupRegistrationForm();
+  if (document.getElementById("registrationForm")) { setupRegistrationForm() ;
+      // ADDED: Live password strength indicator on registration page
+  const passwordInput = document.getElementById('password');
+
+  // Only run this if the password field exists
+  if (passwordInput) {
+    passwordInput.addEventListener('input', function () {
+      const password = this.value;
+
+      // Get the strength bar and message elements
+      const bar = document.getElementById('password-strength-bar');
+      const text = document.getElementById('password-strength-text');
+
+      // Initialize strength score
+      let strength = 0;
+
+      // Evaluate password rules and add strength points
+      if (password.length >= 8) strength += 25;                  // Length check
+      if (/[A-Z]/.test(password)) strength += 25;                // Uppercase check
+      if (/[0-9]/.test(password)) strength += 25;                // Number check
+      if (/[^A-Za-z0-9]/.test(password)) strength += 25;         // Special character check
+
+      // Update progress bar width
+      bar.style.width = `${strength}%`;
+
+      // Reset previous class
+      bar.className = 'progress-bar';
+
+      // Update strength color and label
+      if (strength < 50) {
+        bar.classList.add('bg-danger');
+        text.textContent = 'Weak password';
+      } else if (strength < 75) {
+        bar.classList.add('bg-warning');
+        text.textContent = 'Moderate password';
+      } else {
+        bar.classList.add('bg-success');
+        text.textContent = 'Strong password';
+      }
+    });
+  }
+  }
   if (document.getElementById("contactForm")) setupContactForm();
   if (window.location.pathname.endsWith("cart.html")) loadCartItems();
   if (window.location.pathname.endsWith("checkout.html")) loadOrderSummary();
@@ -657,4 +698,25 @@ document.addEventListener("DOMContentLoaded", () => {
   if (productSearch) {
     productSearch.addEventListener("input", filterProducts);
   }
+  
 });
+// =========================
+// Toggle Password Visibility 
+// =========================
+
+function togglePassword(inputId) {
+  const input = document.getElementById(inputId);
+  const icon = input?.nextElementSibling?.querySelector("i");
+
+  if (!input || !icon) return;
+
+  if (input.type === "password") {
+    input.type = "text";
+    icon.classList.remove("fa-eye");
+    icon.classList.add("fa-eye-slash");
+  } else {
+    input.type = "password";
+    icon.classList.remove("fa-eye-slash");
+    icon.classList.add("fa-eye");
+  }
+}

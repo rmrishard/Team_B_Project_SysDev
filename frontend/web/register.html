@@ -68,12 +68,12 @@
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label">First Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control"  id="firstName" required>
                                 <div class="invalid-feedback">Please enter your first name</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Last Name <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control" id="lastName" required>
                                 <div class="invalid-feedback">Please enter your last name</div>
                             </div>
                         </div>
@@ -81,12 +81,12 @@
                         <div class="row g-3 mt-2">
                             <div class="col-md-6">
                                 <label class="form-label">Email <span class="text-danger">*</span></label>
-                                <input type="email" class="form-control" required>
+                                <input type="email" class="form-control" id="email" required>
                                 <div class="invalid-feedback">Please enter a valid email</div>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Phone Number <span class="text-danger">*</span></label>
-                                <input type="tel" class="form-control" required>
+                                <input type="tel" class="form-control" id="phone" required>
                                 <div class="invalid-feedback">Please enter your phone number</div>
                             </div>
                         </div>
@@ -97,7 +97,7 @@
                                 <label class="form-label">Password <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="password" class="form-control" id="password" required>
-                                    <button class="btn btn-outline-secondary" type="button"
+                                    <button class="btn btn-outline-secondary"  type="button"
                                         onclick="togglePassword('password')">
                                         <i class="fas fa-eye"></i>
                                     </button>
@@ -118,7 +118,7 @@
                                 <div class="input-group">
                                     <input type="password" class="form-control" id="confirmPassword" required>
                                     <button class="btn btn-outline-secondary" type="button"
-                                        onclick="togglePassword('confirmPassword')">
+                                        onclick="togglePassword('confirmPassword')" aria-label="Toggle password visibility">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </div>
@@ -131,17 +131,17 @@
                             <div class="row g-3">
                                 <div class="col-12">
                                     <label class="form-label">Street Address <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" required>
+                                    <input type="text" class="form-control" id="address" required>
                                     <div class="invalid-feedback">Please enter your street address</div>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">City <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" required>
+                                    <input type="text" class="form-control" id="city" required>
                                     <div class="invalid-feedback">Please enter your city</div>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">Province <span class="text-danger">*</span></label>
-                                    <select class="form-select" required>
+                                    <select class="form-select" id="province" required>
                                         <option value="">Select...</option>
                                         <option value="AB">Alberta</option>
                                         <option value="BC">British Columbia</option>
@@ -161,7 +161,8 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label">Postal Code <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control"
+                                    <input type="text" class="form-control" id="postalCode"
+                                    placeholder="A1B 2C3"
                                         pattern="[A-Za-z][0-9][A-Za-z] [0-9][A-Za-z][0-9]" required>
                                     <div class="invalid-feedback">Please enter a valid postal code</div>
                                 </div>
