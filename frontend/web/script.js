@@ -7,6 +7,7 @@ let filteredProducts = []; // products after filtering
 let currentPage = 1;
 const pageSize = 9;
 
+
 // UPDATED: Initialize app with proper cart loading
 document.addEventListener("DOMContentLoaded", () => {
   initializeApp();
@@ -718,5 +719,98 @@ function togglePassword(inputId) {
     input.type = "password";
     icon.classList.remove("fa-eye-slash");
     icon.classList.add("fa-eye");
+  }
+}
+//START OF BACKEND-INTEGRATED SECTION
+
+// ========== User Registration ==========
+async function registerUser(userData) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData)
+    });
+
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || "Registration failed");
+    return result;
+  } catch (error) {
+    throw new Error("Registration error: " + error.message);
+  }
+}
+
+// ========== User Login ==========
+async function loginUser(email, password) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/users/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || "Login failed");
+
+    // Store JWT or session token locally
+    localStorage.setItem("authToken", result.token);
+    localStorage.setItem("userEmail", email);
+    return result;
+  } catch (error) {
+    throw new Error("Login error: " + error.message);
+  }
+}
+
+// ========== Authenticated Fetch Helper ==========
+function getAuthHeaders() {
+  const token = localStorage.getItem("authToken");
+  return {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}`
+  };
+}
+
+// ========== Cart Persistence API ==========
+async function saveCartToServer(cartData) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/cart/save`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(cartData)
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error saving cart:", error.message);
+  }
+}
+
+async function fetchCartFromServer() {
+  try {
+    const response = await fetch(`${API_BASE_URL}/cart`, {
+      method: 'GET',
+      headers: getAuthHeaders()
+    });
+    if (!response.ok) throw new Error("Failed to fetch cart");
+    return await response.json();
+  } catch (error) {
+    console.error("Error loading cart:", error.message);
+    return [];
+  }
+}
+
+// ========== Order Submission ==========
+async function submitOrder(orderData) {
+  try {
+    const response = await fetch(`${API_BASE_URL}/orders`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(orderData)
+    });
+
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.message || "Order failed");
+    return result;
+  } catch (error) {
+    throw new Error("Order submission error: " + error.message);
   }
 }
