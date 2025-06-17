@@ -2,14 +2,35 @@ import uuid
 from typing import TypedDict, Optional, Any
 from decimal import Decimal
 import datetime
+import hashlib
 
-from pydantic import ConfigDict, SkipValidation, AliasChoices
+from pydantic import ConfigDict, SkipValidation, AliasChoices, field_validator
 from sqlalchemy.dialects.postgresql.psycopg import JSONB
 from sqlmodel import Field, SQLModel
 
 # if referring to other models within this model (example)
 # if TYPE_CHECKING:
 #    from .team_model import Team
+
+# CHANGING THIS VALUE WILL INVALIDATE ALL STORED PASSWORDS
+PWD_SALT = "xjJLXqK+Wouac4/Us449fXTs3B00b7MT47c7Fk7NWEc="
+# DO NOT CHANGE THE ABOVE ONCE SYSTEM IS LIVE
+MIN_PASSWORD_LENGTH = 12
+
+# Shared hash_password (validator) between classes
+def hash_password(password: str) -> str:
+    if password and len(password) < MIN_PASSWORD_LENGTH:
+        raise ValueError(f'Password is too short. Minimum password length is {MIN_PASSWORD_LENGTH} characters.')
+    elif password and len(password) >= MIN_PASSWORD_LENGTH:
+        salted = PWD_SALT + password
+        byte_string = salted.encode('utf-8')
+        h = hashlib.sha256(byte_string)
+        return h.hexdigest()  # return the hex digest of the hashed (and salted) password
+    else:
+        return None
+
+
+### MODEL CLASS DEFINITIONS BELOW
 
 class UserBase(SQLModel):
     model_config = ConfigDict(extra='ignore')
@@ -50,7 +71,10 @@ class UserCreate(UserBase):
     contact_method_type_id_fk: Optional[int] = Field( default=None, schema_extra={'serialization_alias': 'contact_method_type_id','validation_alias':AliasChoices('contact_method_type_id')})
     user_role_type_id_fk: int = Field( schema_extra={'serialization_alias': 'user_role_type_id','validation_alias':AliasChoices('user_role_type_id')})
 
-    pass
+    @field_validator('password', mode='after')
+    @classmethod
+    def password_hasher(cls,password: str) -> str:
+        return hash_password(password)
 
 class UserPublic(UserBase):
     user_id_pk: uuid.UUID = Field(alias='id',default_factory=uuid.uuid4, index=True,schema_extra={'serialization_alias': 'id'})
@@ -78,4 +102,9 @@ class UserUpdate(UserBase):
     pref_mailing_address_id_fk: Optional[uuid.UUID] = Field(default=None, alias='pref_mailing_address_id',schema_extra={'serialization_alias': 'pref_mailing_address_id'})
     contact_method_type_id_fk: Optional[int] = Field(default=None, alias='contact_method_type_id', schema_extra={'serialization_alias': 'contact_method_type_id'})
     user_role_type_id_fk: Optional[int] = Field(default=None, alias='user_role_type_id', schema_extra={'serialization_alias': 'user_role_type_id'})
+
+    @field_validator('password', mode='after')
+    @classmethod
+    def password_hasher(cls, password: str) -> str:
+        return hash_password(password)
 
