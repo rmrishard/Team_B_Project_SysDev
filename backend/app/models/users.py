@@ -50,6 +50,9 @@ class UserBase(SQLModel):
     contact_method_type_id_fk: Optional[int] = Field(alias='contact_method_type_id', schema_extra={'serialization_alias': 'contact_method_type_id'})
     user_role_type_id_fk: int = Field(alias='user_role_type_id', schema_extra={'serialization_alias': 'user_role_type_id'})
 
+    def getUserRole(self):
+        return self.user_role_type_id_fk
+
 #When table=True validation is not done, thus it must be done manually
 class User(UserBase, table=True):
     user_id_pk: uuid.UUID = Field(alias='id', primary_key=True, default_factory=uuid.uuid4, index=True,schema_extra={'serialization_alias': 'id'})

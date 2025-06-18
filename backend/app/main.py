@@ -1,8 +1,11 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from .routers import example, products, product_reviews, supplier_products, suppliers, enums, orders, order_line_items, \
     shopping_carts, shopping_cart_items, users
 
+from .routers.services import shop, authorize
+
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.sessions import SessionMiddleware
 
 app = FastAPI(
     root_path="/api/v1",
@@ -24,6 +27,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="9kTqAH54CmOTdH208Jg04npHb4zB3LMv/CcSqNinHvo",
+    same_site='strict',
+    https_only=False
+)
+
 # All resources should be built in their own routers file
 app.include_router(products.router)
 app.include_router(product_reviews.router)
@@ -36,6 +46,10 @@ app.include_router(shopping_carts.router)
 app.include_router(shopping_cart_items.router)
 app.include_router(users.router)
 
+# Routers for complex services
+app.include_router(shop.router)
+
+app.include_router(authorize.router)
 @app.get("/")
 def read_root():
     return {"message": "Hello wide world, waiting to service requests!"}
