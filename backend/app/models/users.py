@@ -81,6 +81,7 @@ class UserCreate(UserBase):
 
 class UserPublic(UserBase):
     user_id_pk: uuid.UUID = Field(alias='id',default_factory=uuid.uuid4, index=True,schema_extra={'serialization_alias': 'id'})
+    password:str = Field(exclude=True)
 
 # Use this model when retrieving for public consumption
 class UserPublicRetrieve(UserPublic):
