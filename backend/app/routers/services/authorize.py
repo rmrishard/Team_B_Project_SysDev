@@ -10,7 +10,7 @@ from starlette.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED
 from app import engine
 from app.models.shopping_carts import *
 from app.models.services.credentials import Credential
-from app.models.users import hash_password, User
+from app.models.users import hash_password, User, UserPublicRetrieve
 
 router = APIRouter(
     prefix="/auth",
@@ -51,3 +51,16 @@ async def logout(request: Request, response: Response):
     response.delete_cookie(key="store_user")
 
     return "Bye!"
+
+
+@router.post("/whoami", response_model=Optional[UserPublicRetrieve])
+def retrieve_user_info(request: Request, response: Response):
+    if request.session.get("credential", None):
+        user_id = request.session["credential"]["user_id"]
+        if user_id:
+            with Session(engine) as session:
+                user = session.get(User,user_id)
+
+            return user
+
+    return None
