@@ -7,7 +7,11 @@ from sqlmodel import Field
 
 class Credential(BaseModel):
     model_config = ConfigDict(extra='forbid')
-    username: Optional[str]
+    username: Optional[str] = None
     guest_token: Optional[uuid.UUID] = Field(default_factory=uuid.uuid4)
     user_id: Optional[uuid.UUID] = Field(default=None)
     role: Optional[str|int] = None
+
+class LoginCredential(BaseModel):
+    username: str
+    password: str

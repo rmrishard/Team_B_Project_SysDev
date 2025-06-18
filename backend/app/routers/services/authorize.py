@@ -9,7 +9,7 @@ from starlette.status import HTTP_200_OK, HTTP_401_UNAUTHORIZED
 
 from app import engine
 from app.models.shopping_carts import *
-from app.models.services.credentials import Credential
+from app.models.services.credentials import Credential, LoginCredential
 from app.models.users import hash_password, User, UserPublicRetrieve
 
 router = APIRouter(
@@ -18,17 +18,15 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-#Utilize POST for now, but information should be pulled directly from the session
-@router.post("/login", response_model=Any)
-async def login(response: Response, request: Request, username: Annotated[str, Form()], password: Annotated[str, Form()]):
-
+#Process login helper function
+async def process_login(request, response, username, password ):
     hashed_password = hash_password(password)
     with Session(engine) as session:
-        statement = select(User).where(User.username == username,User.password == hashed_password)
+        statement = select(User).where(User.username == username, User.password == hashed_password)
         user = session.exec(statement).first()
 
         if user:
-            credential = Credential(user_id=user.user_id_pk,username=username,role=user.getUserRole())
+            credential = Credential(user_id=user.user_id_pk, username=username, role=user.getUserRole())
             request.session["credential"] = credential.model_dump(mode='json')
             response.status_code = HTTP_200_OK
 
@@ -41,6 +39,20 @@ async def login(response: Response, request: Request, username: Annotated[str, F
                 request.session["credential"] = credential.model_dump(mode='json')
 
             response.status_code = HTTP_401_UNAUTHORIZED
+
+
+#Expect JSON
+@router.post("/login/json")
+async def login(response: Response, request: Request, login_request: LoginCredential ):
+    if login_request.username and login_request.password:
+        await process_login(request, response, login_request.username, login_request.password)
+
+
+#Utilize POST
+@router.post("/login", response_model=Any)
+async def login(response: Response, request: Request, username: Annotated[str, Form()], password: Annotated[str, Form()]):
+
+    await process_login(request, response, username, password)
 
     return
 
