@@ -1,5 +1,7 @@
 from typing import List, Any, Annotated
 import uuid
+import json
+
 from fastapi import APIRouter, HTTPException, Request, Form, Response
 from sqlmodel import Session, select
 from sqlalchemy.exc import IntegrityError
@@ -29,6 +31,10 @@ async def login(response: Response, request: Request, username: Annotated[str, F
             credential = Credential(user_id=user.user_id_pk,username=username,role=user.getUserRole())
             request.session["credential"] = credential.model_dump(mode='json')
             response.status_code = HTTP_200_OK
+
+            plain_user = {"first_name": user.first_name, "last_name": user.last_name, "id": str(user.user_id_pk)}
+
+            response.set_cookie(key="store_user", value=json.dumps(plain_user))
         else:
             if not request.session.get("credential", None):
                 credential = Credential(user_id=None, username=None, role=None)
@@ -39,8 +45,9 @@ async def login(response: Response, request: Request, username: Annotated[str, F
     return
 
 @router.post("/logout", response_model=Any)
-async def logout(request: Request):
+async def logout(request: Request, response: Response):
     guest_token = request.session["credential"]["username"]
     request.session.clear()
+    response.delete_cookie(key="store_user")
 
-    return guest_token
+    return "Bye!"
