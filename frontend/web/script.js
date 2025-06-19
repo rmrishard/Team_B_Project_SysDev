@@ -440,6 +440,11 @@ function loadCartItems() {
 
 // ADDED: Update quantity function
 function updateQuantity(productId, newQuantity) {
+  //Make a request to the API
+  const updateCart = new CartModifyRequest(productId,newQuantity)
+  updateCart.send(); //Ignore result for now
+
+
   if (newQuantity <= 0) {
     const item = cart.find(item => item.id === productId);
     if (item) {
@@ -472,6 +477,10 @@ function confirmRemoveItem(productId, productName) {
 
 // UPDATED: Remove product from cart
 function removeFromCart(productId) {
+  //Make a request to the API
+  const updateCart = new CartModifyRequest(productId,0) //Zero triggers removal
+  updateCart.send(); //Ignore result for now
+
   cart = cart.filter(item => item.id !== productId);
   updateCartStorage();
   
