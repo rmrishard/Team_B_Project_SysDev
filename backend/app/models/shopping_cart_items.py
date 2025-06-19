@@ -10,7 +10,7 @@ class ShoppingCartItemBase(SQLModel):
 
     shopping_cart_id_fk: uuid.UUID = Field(alias='shopping_cart_id', schema_extra={'serialization_alias': 'shopping_cart_id'})
     product_id_fk: uuid.UUID = Field(alias='product_id', schema_extra={'serialization_alias': 'product_id'})
-    added_item: datetime.datetime = Field(default_factory=datetime.datetime.utcnow)
+    added_time: datetime.datetime = Field(default_factory=datetime.datetime.utcnow)
     reserved: bool = Field(default=False)
     quantity: int = Field(default=0)
 
@@ -44,6 +44,6 @@ class ShoppingCartItemUpdate(ShoppingCartItemBase):
     shopping_cart_item_id_pk: None = Field(default=None, alias='id', index=True, schema_extra={'serialization_alias': 'id'})
     shopping_cart_id_fk: None = Field(default=None, alias='shopping_cart_id')
     product_id_fk: None = Field(default=None, alias='product_id')
-    added_item: Optional[datetime.datetime] = None
+    added_time: Optional[datetime.datetime] = None
     reserved: Optional[bool] = None
     quantity: Optional[int] = None
