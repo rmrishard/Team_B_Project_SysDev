@@ -9,6 +9,7 @@ from app.models.shopping_carts import *
 from app.utils.orm import ReadItems, UpdateItems
 from app.models.services.carts import CartPublic
 from .authorize import confirm_session
+from ...models.services.carts import CartProductStub, CartShoppingCartItemStub, CartModifyRequest, CartActionEnum
 from ...models.shopping_cart_items import ShoppingCartItem
 from ...models.shopping_carts import ShoppingCart
 from ...models.products import Product
@@ -46,8 +47,27 @@ async def get_cart(request: Request):
         product_ids = map(lambda item: item.product_id_fk, cart_items)
         products = retrieve_cart_products(product_ids)
 
+        #Covert to stubs
+        cart_items = map(lambda ci: CartShoppingCartItemStub.from_ShoppingCartItem(ci), cart_items )
 
+    cart = CartPublic.from_ShoppingCart(cart)
     return {"cart":cart,"cart_items":cart_items,"cart_products":products}
+
+@router.post("/cart/modify", response_model=Any)
+async def modify_cart(request: Request, cart_request: CartModifyRequest):
+    active_session = confirm_session(request.session)
+
+    if active_session:
+        # Attempt to retrieve cart_id from session if present
+        cart_id = request.session.get("shopping_cart_id", None)
+
+        if cart_id:
+            perform_cart_action(cart_id, cart_request)
+        else:
+            raise HTTPException(status_code=404, detail="Unknown error. Failed to retrieve a cart.")
+    else:
+        raise HTTPException(status_code=404, detail="Failed to modify items in cart.")
+
 
 def retrieve_cart(request: Request):
     active_session = confirm_session(request.session)
@@ -75,9 +95,6 @@ def retrieve_cart(request: Request):
 
         if not cart:
             raise HTTPException(status_code=404, detail="Failed to retrieve a new cart")
-
-    else:
-        raise HTTPException(status_code=404, detail="Cannot find session. Are cookies disabled?")
 
 
     return cart
@@ -137,3 +154,41 @@ def retrieve_cart_products(product_ids: List[str]):
     products = ReadItems.all_with(Product, in_list)
 
     return products
+
+
+def perform_cart_action(cart_id, cart_request):
+    if not cart_id:
+        return None
+    else:
+        with Session(engine) as session:
+            statement = select(ShoppingCartItem).where(ShoppingCartItem.shopping_cart_id_fk == cart_id).where(
+                ShoppingCartItem.product_id_fk == cart_request.product_id)
+
+            cart_item = session.exec(statement).first()
+
+            if cart_request.action == CartActionEnum.ADD and not cart_item:
+
+                # Only allow non-zero quantities to be committed to DB
+                if cart_request.quantity:
+                    cart_item = ShoppingCartItem(shopping_cart_id_fk=cart_id,product_id_fk=cart_request.product_id,quantity=cart_request.quantity)
+                    session.add(cart_item)
+
+            else:
+                if cart_item:
+                    if cart_request.action == CartActionEnum.REMOVE or not bool(cart_request.quantity):
+                        session.delete(cart_item)
+                        cart_item = None
+                    elif cart_request.action == CartActionEnum.CHANGE or bool(cart_request.quantity):
+                        cart_item.quantity = cart_request.quantity
+                        session.add(cart_item)
+                else:
+                    raise HTTPException(status_code=404, detail="Unknown error. Failed to find requested cart item.")
+
+            # Commit session
+            session.commit()
+
+            if cart_item:
+                session.refresh(cart_item)
+
+    return cart_item
+
