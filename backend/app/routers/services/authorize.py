@@ -18,6 +18,27 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
+#Confirm session or create a new one if absent
+def confirm_session(session, credential: Optional[Credential] = None) -> bool:
+    valid_credential = False
+
+    if session.get("credential", None):
+        # verify credential is still activate   TODO: ADD INTERNAL EXPIRATION
+
+        # Does the credential have a user_id and/or a guest_token to identify the user on the site?
+        valid_credential = bool(session["credential"].get("user_id", None) or session["credential"].get("guest_token", None))
+    else:
+        if credential:
+            session["credential"] = credential.model_dump(mode='json')
+        else:
+            credential = Credential(user_id=None, username=None, role=None)
+            session["credential"] = credential.model_dump(mode='json')
+
+        valid_credential = True  # Credential created
+
+    #do further invalidation if necessary to force re-login or recreation of session
+    return valid_credential
+
 #Process login helper function
 async def process_login(request, response, username, password ):
     hashed_password = hash_password(password)
@@ -27,17 +48,14 @@ async def process_login(request, response, username, password ):
 
         if user:
             credential = Credential(user_id=user.user_id_pk, username=username, role=user.getUserRole())
-            request.session["credential"] = credential.model_dump(mode='json')
-            response.status_code = HTTP_200_OK
+            confirm_session(request.session, credential)
 
+            # Set clear-text information
             plain_user = {"first_name": user.first_name, "last_name": user.last_name, "id": str(user.user_id_pk)}
-
             response.set_cookie(key="store_user", value=json.dumps(plain_user))
+            response.status_code = HTTP_200_OK
         else:
-            if not request.session.get("credential", None):
-                credential = Credential(user_id=None, username=None, role=None)
-                request.session["credential"] = credential.model_dump(mode='json')
-
+            confirm_session(request.session, None)
             response.status_code = HTTP_401_UNAUTHORIZED
 
 
@@ -58,10 +76,8 @@ async def login(response: Response, request: Request, username: Annotated[str, F
 
 @router.post("/logout", response_model=Any)
 async def logout(request: Request, response: Response):
-    guest_token = request.session["credential"]["username"]
     request.session.clear()
     response.delete_cookie(key="store_user")
-
     return "Bye!"
 
 
