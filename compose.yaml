@@ -42,7 +42,7 @@ services:
 
   #FASTAPI server
   backend:
-    build: .
+    build: ./backend
     environment:
       POSTGRES_USER_FILE: /run/secrets/pg_user
       POSTGRES_PASSWORD_FILE: /run/secrets/pg_pw
