@@ -9,7 +9,7 @@ from app.models.shopping_carts import *
 from app.utils.orm import ReadItems, UpdateItems
 from app.models.services.carts import CartPublic
 from .authorize import confirm_session
-from ...models.services.carts import CartProductStub, CartShoppingCartItemStub, CartModifyRequest, CartActionEnum
+from ...models.services.carts import CartProductStub, CartShoppingCartItemStub, CartModifyRequestS
 from ...models.shopping_cart_items import ShoppingCartItem
 from ...models.shopping_carts import ShoppingCart
 from ...models.products import Product
