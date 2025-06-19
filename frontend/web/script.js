@@ -295,7 +295,7 @@ const CartModifyRequest = class {
   async send() {
     let response = false;
     try {
-      response = await fetch(`${API_BASE_URL}/shop/modify`, {
+      response = await fetch(`${API_BASE_URL}/shop/cart/modify`, {
         method: 'POST',
         body: JSON.stringify(this.data)
       });
