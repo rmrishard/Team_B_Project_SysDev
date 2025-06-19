@@ -44,6 +44,9 @@ def read_root(request: Request, file_path: str):
     if file_path.startswith("."):
         raise HTTPException(status_code=404, detail="File not found")
 
+    if "user.html" in file_path and not access_allowed(request):
+        raise HTTPException(status_code=403, detail="Access denied")
+
     # Resolve the full path and ensure it's within the web directory
     full_path = (WEB_DIR / file_path).resolve()
 
@@ -61,3 +64,7 @@ def read_root(request: Request, file_path: str):
         raise HTTPException(status_code=404, detail="File not found")
 
     return FileResponse(full_path)
+
+def access_allowed(request: Request):
+    has_credential = bool(request.session.get("credential", None))
+    return has_credential and bool(request.session['credential'].get("username", None))
