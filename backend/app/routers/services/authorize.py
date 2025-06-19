@@ -92,3 +92,8 @@ def retrieve_user_info(request: Request, response: Response):
             return user
 
     return None
+
+# For taking a look at encrypted session data, use only in debugging on local
+# @router.get("/debug")
+# def debug_dump(request: Request, response: Response):
+#     return request.session
