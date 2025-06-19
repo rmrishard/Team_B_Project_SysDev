@@ -805,17 +805,21 @@ async function registerUser(userData) {
 // ========== User Login ==========
 async function loginUser(email, password) {
   try {
-    const response = await fetch(`${API_BASE_URL}/users/login`, {
+    const response = await fetch(`${API_BASE_URL}/auth/login/json`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({"username": email, "password": password})
     });
 
     const result = await response.json();
-    if (!response.ok) throw new Error(result.message || "Login failed");
+    if (response.ok) {
+      window.location.href = "https://www.yallahabibi.online/user.html";
+    } else {
+      throw new Error(result.message || "Login failed");
+    }
 
     // Store JWT or session token locally
-    localStorage.setItem("authToken", result.token);
+    // localStorage.setItem("authToken", result.token); //We aren't using a JWT yet
     localStorage.setItem("userEmail", email);
     return result;
   } catch (error) {
