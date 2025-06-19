@@ -18,6 +18,21 @@ function initializeApp() {
   cart = JSON.parse(localStorage.getItem("cart")) || [];
   loadCartCount();
 
+  //UPDATED: Ping the API to get session and existing cart information
+  let serverCart = null;
+  try {
+    fetch(`${API_BASE_URL}/shop/cart/`).then(function(resp){
+      if (!resp.ok) throw new Error("API failed");
+      return resp.json()
+    }).then(function(data){
+          console.log(data);  //This is what it looks like
+          serverCart = data;
+    });
+  } catch (error) {
+      console.warn("API Request failure:", error);
+  }
+  //END Server cart fetch and API ping
+
   if (window.location.pathname.endsWith("products.html")) {
     const categoryParam = new URLSearchParams(window.location.search).get("category");
     if (categoryParam) document.getElementById("categoryFilter").value = categoryParam;
@@ -269,6 +284,33 @@ async function showProductDetail(productId) {
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
+/* Code added to support API */
+const CartModifyRequest = class {
+  constructor(product_id, quantity, action) {
+    this.data = {}
+    this.data["product_id"] = product_id; //UUID
+    this.data["quantity"] = quantity;     //Integer
+    this.data["action"] = action;         //String: add, remove, change
+  }
+
+  async send() {
+    let response = false;
+    try {
+      response = await fetch(`${API_BASE_URL}/shop/modify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.data)
+      });
+      if (!response.ok) throw new Error("API failed");
+    } catch (error) {
+      console.warn("Operation failed due to API failure:", error);
+    }
+  }
+}
+/* End API support code */
+
 // UPDATED: Better image handling when adding to cart
 function addToCart(productId, quantity = 1) {
   getProductById(productId).then(product => {
@@ -285,19 +327,24 @@ function addToCart(productId, quantity = 1) {
       productImage = product.image;
     }
 
-    const existingItem = cart.find(item => item.id === productId);
-    if (existingItem) {
-      existingItem.quantity += quantity;
+    let cartItem = cart.find(item => item.id === productId);
+    if (cartItem) {
+      cartItem.quantity += quantity;
     } else {
-      cart.push({
+      cartItem = {
         id: product.id,
         name: product.name,
         price: parseFloat(product.price),
         image: productImage,
         quantity: quantity,
         description: product.description || ""
-      });
+      };
+      cart.push(cartItem);
     }
+
+    //Make a request to the API
+    const updateCart = new CartModifyRequest(cartItem.id,quantity,"change")
+    updateCart.send(); //Ignore result for now
 
     updateCartStorage();
     alert(`🛒 ${product.name} added to cart!`);
