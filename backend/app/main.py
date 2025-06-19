@@ -31,7 +31,8 @@ app.add_middleware(
     SessionMiddleware,
     secret_key="9kTqAH54CmOTdH208Jg04npHb4zB3LMv/CcSqNinHvo",
     same_site='strict',
-    https_only=False
+    https_only=False,
+    http_only=False
 )
 
 # All resources should be built in their own routers file
