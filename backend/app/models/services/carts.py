@@ -49,16 +49,10 @@ class CartPublic(Cart):
 class CartUpdate(Cart):
     pass
 
-class CartActionEnum(StrEnum):
-    REMOVE="remove"
-    CHANGE="change"
-    ADD="add"
-
 class CartModifyRequest(BaseModel):
     model_config = ConfigDict(extra='forbid')
     product_id: uuid.UUID
     quantity: int | None
-    action: CartActionEnum
 
 
 

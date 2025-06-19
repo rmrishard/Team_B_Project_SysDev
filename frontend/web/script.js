@@ -286,11 +286,10 @@ let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 /* Code added to support API */
 const CartModifyRequest = class {
-  constructor(product_id, quantity, action) {
+  constructor(product_id, quantity) {
     this.data = {}
     this.data["product_id"] = product_id; //UUID
     this.data["quantity"] = quantity;     //Integer
-    this.data["action"] = action;         //String: add, remove, change
   }
 
   async send() {
@@ -343,7 +342,7 @@ function addToCart(productId, quantity = 1) {
     }
 
     //Make a request to the API
-    const updateCart = new CartModifyRequest(cartItem.id,quantity,"change")
+    const updateCart = new CartModifyRequest(cartItem.id,quantity)
     updateCart.send(); //Ignore result for now
 
     updateCartStorage();

@@ -166,8 +166,7 @@ def perform_cart_action(cart_id, cart_request):
 
             cart_item = session.exec(statement).first()
 
-            if cart_request.action == CartActionEnum.ADD and not cart_item:
-
+            if not cart_item:
                 # Only allow non-zero quantities to be committed to DB
                 if cart_request.quantity:
                     cart_item = ShoppingCartItem(shopping_cart_id_fk=cart_id,product_id_fk=cart_request.product_id,quantity=cart_request.quantity)
@@ -177,18 +176,13 @@ def perform_cart_action(cart_id, cart_request):
                                         detail="Invalid quantity was provided.")
 
             else:
-                if cart_item:
-                    if cart_request.action == CartActionEnum.REMOVE or not bool(cart_request.quantity):
-                        session.delete(cart_item)
-                        cart_item = None
-                    elif cart_request.action == CartActionEnum.CHANGE or bool(cart_request.quantity):
-                        cart_item.quantity = cart_request.quantity
-                        session.add(cart_item)
-                    else:
-                        raise HTTPException(status_code=400,
-                                            detail="Invalid action requested was ignored.")
+                if not cart_request.quantity:
+                    session.delete(cart_item)
+                    cart_item = None
                 else:
-                    raise HTTPException(status_code=404, detail="Unknown error. Failed to find requested cart item.")
+                    cart_item.quantity = cart_request.quantity
+                    session.add(cart_item)
+
 
             # Commit session
             session.commit()
