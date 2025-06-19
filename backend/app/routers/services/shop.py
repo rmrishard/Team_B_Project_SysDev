@@ -172,6 +172,9 @@ def perform_cart_action(cart_id, cart_request):
                 if cart_request.quantity:
                     cart_item = ShoppingCartItem(shopping_cart_id_fk=cart_id,product_id_fk=cart_request.product_id,quantity=cart_request.quantity)
                     session.add(cart_item)
+                else:
+                    raise HTTPException(status_code=400,
+                                        detail="Invalid quantity was provided.")
 
             else:
                 if cart_item:
@@ -181,6 +184,9 @@ def perform_cart_action(cart_id, cart_request):
                     elif cart_request.action == CartActionEnum.CHANGE or bool(cart_request.quantity):
                         cart_item.quantity = cart_request.quantity
                         session.add(cart_item)
+                    else:
+                        raise HTTPException(status_code=400,
+                                            detail="Invalid action requested was ignored.")
                 else:
                     raise HTTPException(status_code=404, detail="Unknown error. Failed to find requested cart item.")
 
